@@ -160,12 +160,12 @@
           </Collapse>
           <div class="sb-sidenav-menu-heading">Addons</div>
           <SidebarItem
-            class={segment === 'charts' ? 'active' : ''}
+            class={segment === 'servers' ? 'active' : ''}
             on:press={() => {
               theme = 'dark';
             }}
-            href="charts"
-            text="Charts"
+            href="servers"
+            text="Servers"
             leftIcon>
             <i class="fas fa-chart-area" slot="leftIcon" />
           </SidebarItem>

@@ -3,20 +3,19 @@
 
   const tableHeading = ["Name", "Type", "Category", "Virtual CPUs", "Memory"];
   export let servers;
+  export let selectedServer;
 
   export let cardTitle = "Servers";
-  export let cardIcon = "";
-  export let cardColor = "";
-  export let cardFooterText = "View Details";
+
+  const select = server => () => selectedServer = server;
 </script>
 
-<Card color={cardColor} class="mb-4">
+<Card class="mb-4">
   <CardHeader>
-    <i class={cardIcon} />
     {cardTitle}
   </CardHeader>
   <CardBody>
-    <Table responsive>
+    <Table responsive hover>
       <thead>
         <tr>
           {#each tableHeading as heading}
@@ -26,7 +25,7 @@
       </thead>
       <tbody>
         {#each servers as server}
-          <tr>
+          <tr on:click|preventDefault={select(server)} class:active={selectedServer && selectedServer._id == server._id} >
             <th scope="row">{server.name}</th>
             <td>{server.type}</td>
             <td>{server.category}</td>
@@ -37,12 +36,9 @@
       </tbody>
     </Table>
   </CardBody>
-  <CardFooter class="d-flex align-items-center justify-content-between">
-    <a class="small text-white stretched-link" href="charts">
-      {cardFooterText}
-    </a>
-    <div class="small">
-      <i class="fas fa-angle-right" />
-    </div>
+  <CardFooter>
+    {#if selectedServer}
+      {selectedServer.name}
+    {/if}
   </CardFooter>
 </Card>
