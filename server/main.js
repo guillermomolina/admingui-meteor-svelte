@@ -11,7 +11,7 @@ const insertServer = (server, user) => {
   ServersCollection.insert(server);
 }
 
-const SEED_USERNAME = 'gmolina';
+const SEED_USERNAME = 'user';
 const SEED_PASSWORD = 'password';
 
 Meteor.startup(() => {

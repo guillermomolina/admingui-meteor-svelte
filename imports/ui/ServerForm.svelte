@@ -6,12 +6,11 @@
     CardFooter,
     FormGroup,
     Input,
+    Button,
     Label,
   } from "sveltestrap";
-  import Button from "sveltestrap/src/Button.svelte";
-  export let server = {
-    name: "",
-  };
+  import { ServersSchema } from "../db/ServersCollection";
+  export let server;
 
   const handleSubmit = () => {
     if (!server.name) return;
@@ -28,7 +27,7 @@
   </CardHeader>
   <CardBody>
     <FormGroup>
-      <Label>Name</Label>
+      <Label>{ServersSchema.label("name")}</Label>
       <Input bind:value={server.name} />
     </FormGroup>
   </CardBody>

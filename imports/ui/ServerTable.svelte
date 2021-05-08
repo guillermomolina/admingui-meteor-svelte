@@ -1,44 +1,55 @@
 <script>
   import { Card, CardHeader, CardBody, CardFooter, Table } from "sveltestrap";
+  import { ServersSchema } from "../db/ServersCollection";
 
-  const tableHeading = ["Name", "Type", "Category", "Virtual CPUs", "Memory"];
   export let servers;
-  export let selectedServer;
+  export let server;
 
-  export let cardTitle = "Servers";
-
-  const select = server => () => selectedServer = server;
+  const select = (row) => () => (server = row);
 </script>
 
 <Card class="mb-4">
-  <CardHeader>
-    {cardTitle}
-  </CardHeader>
+  <CardHeader>Servers</CardHeader>
   <CardBody>
     <Table responsive hover>
       <thead>
         <tr>
-          {#each tableHeading as heading}
-            <th>{heading}</th>
-          {/each}
+          <th>{ServersSchema.label("name")}</th>
+          <th>{ServersSchema.label("type")}</th>
+          <th>{ServersSchema.label("category")}</th>
+          <th>{ServersSchema.label("vcpus")}</th>
+          <th>{ServersSchema.label("memory")}</th>
+          <th />
         </tr>
       </thead>
       <tbody>
-        {#each servers as server}
-          <tr on:click|preventDefault={select(server)} class:active={selectedServer && selectedServer._id == server._id} >
-            <th scope="row">{server.name}</th>
-            <td>{server.type}</td>
-            <td>{server.category}</td>
-            <td>{server.vcpus}</td>
-            <td>{server.memory}</td>
+        {#each servers as row}
+          <tr
+            on:click|preventDefault={select(row)}
+            class:highlight={server == row}
+          >
+            <th scope="row">{row.name}</th>
+            <td>{row.type}</td>
+            <td>{row.category}</td>
+            <td>{row.vcpus}</td>
+            <td>{row.memory}</td>
+            <td>{server == row}</td>
           </tr>
         {/each}
       </tbody>
     </Table>
   </CardBody>
   <CardFooter>
-    {#if selectedServer}
-      {selectedServer.name}
+    {#if server.name}
+      Selected: {server.name}
+    {:else}
+      Select a server
     {/if}
   </CardFooter>
 </Card>
+
+<style>
+  .table tbody tr.highlight {
+    background-color: #ddd;
+  }
+</style>

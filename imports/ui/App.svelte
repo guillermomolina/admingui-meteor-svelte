@@ -16,7 +16,7 @@
     let title = "Admin GUI";
 
     $m: {
-        Meteor.loginWithPassword("gmolina", "password");
+        Meteor.loginWithPassword("user", "password");
         user = Meteor.user();
     }
 

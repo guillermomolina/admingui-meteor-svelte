@@ -6,7 +6,9 @@
 
     let incompleteCount;
     let servers = [];
-    let server;
+    let server = {
+        name: "",
+    };
 
     const handler = Meteor.subscribe("servers");
     $m: {
@@ -23,6 +25,5 @@
     }
 </script>
 
-
-<ServerTable servers={servers} selectedServer={server}/>
-<ServerForm value={server}/>
+<ServerTable {servers} bind:server />
+<ServerForm {server} />
