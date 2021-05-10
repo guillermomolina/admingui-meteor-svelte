@@ -29,10 +29,10 @@
             class:highlight={server == row}
           >
             <th scope="row">{row.name}</th>
-            <td>{row.type}</td>
+            <td>{ServersSchema.schema('type').renderer(row.type)}</td>
             <td>{row.category}</td>
             <td>{row.vcpus}</td>
-            <td>{row.memory}</td>
+            <td>{ServersSchema.schema('memory').renderer(row.memory)}</td>
             <td>{server == row}</td>
           </tr>
         {/each}

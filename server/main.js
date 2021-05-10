@@ -1,3 +1,4 @@
+import '../imports/lib/startup';
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { ServersCollection } from '/imports/db/ServersCollection';
@@ -67,7 +68,7 @@ Meteor.startup(() => {
           }
         },
         vcpus: 256,
-        memory: 524288
+        memory: 512*1024*1024
       },
       {
         name: 'testp1-1',
@@ -110,7 +111,7 @@ Meteor.startup(() => {
           }
         },
         vcpus: 256,
-        memory: 262144
+        memory: 256*1024*1024
       },
     ].forEach(server => insertServer(server, user));
   }

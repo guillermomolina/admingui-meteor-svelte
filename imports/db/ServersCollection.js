@@ -6,9 +6,17 @@ export const ServersCollection = new Mongo.Collection('servers');
 export const ServersSchema = new SimpleSchema({
     name: String,
     domain: String,
-    type: { 
-        type: String, 
-        allowedValues: ["server", "ldom", "kernel-zone", "zone"] 
+    type: {
+        type: String,
+        allowedValues: ["server", "ldom", "kernel-zone", "zone"],
+        renderer: (value) => {
+            return {
+                server: "Server",
+                ldom: "Logical domain",
+                'kernel-zone': "Kernel Zone",
+                zone: 'Zone'
+            }[value];
+        }
     },
     class: String,
     architecture: String,
@@ -41,7 +49,13 @@ export const ServersSchema = new SimpleSchema({
     'server.disk.size': SimpleSchema.Integer,
     'server.disk.count': SimpleSchema.Integer,
     vcpus: { type: SimpleSchema.Integer, label: 'Virtual CPUs' },
-    memory: SimpleSchema.Integer
+    memory: { 
+        type:SimpleSchema.Integer,
+        renderer: (value) => {
+            var i = Math.floor( Math.log(value) / Math.log(1024) );
+            return ( value / Math.pow(1024, i) ).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
+        }
+    }
 });
 
 ServersCollection.attachSchema(ServersSchema);
