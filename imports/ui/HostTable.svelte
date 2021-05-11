@@ -1,6 +1,7 @@
 <script>
   import { Card, CardHeader, CardBody, CardFooter, Table } from "sveltestrap";
   import { HostSchema } from "../db/HostsCollection";
+  import { SimpleSchema_render } from '../lib/helper';
 
   export let hosts;
   export let host;
@@ -29,10 +30,10 @@
             class:highlight={host == row}
           >
             <th scope="row">{row.name}</th>
-            <td>{HostSchema.schema('type').renderer(row.type)}</td>
-            <td>{row.category}</td>
-            <td>{row.vcpus}</td>
-            <td>{HostSchema.schema('memory').renderer(row.memory)}</td>
+            <td>{SimpleSchema_render(HostSchema, 'type', row.type)}</td>
+            <td>{SimpleSchema_render(HostSchema, 'category', row.category)}</td>
+            <td>{SimpleSchema_render(HostSchema, 'vcpus', row.vcpus)}</td>
+            <td>{SimpleSchema_render(HostSchema, 'memory', row.memory)}</td>
             <td/>
           </tr>
         {/each}

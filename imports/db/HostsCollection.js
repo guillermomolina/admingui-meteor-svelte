@@ -7,7 +7,7 @@ export const OperatingSystemSchema = new SimpleSchema({
     'name': String,
     'version': String,
     'revision': String,
-});
+}, { requiredByDefault: false });
 
 export const ServerSchema = new SimpleSchema({
     'vendor': String,
@@ -31,7 +31,7 @@ export const ServerSchema = new SimpleSchema({
     'disk.rpm': { type: SimpleSchema.Integer, label: 'RPMs' },
     'disk.size': SimpleSchema.Integer,
     'disk.count': SimpleSchema.Integer,
-});
+}, { requiredByDefault: false });
 
 export const HostSchema = new SimpleSchema({
     name: String,
@@ -50,24 +50,35 @@ export const HostSchema = new SimpleSchema({
     },
     class: String,
     architecture: String,
-    container: { 
+    container: {
         type: String,
         optional: true
     },
-    category: String,
-    vcpus: { type: SimpleSchema.Integer, label: 'Virtual CPUs' },
-    memory: { 
-        type:SimpleSchema.Integer,
+    category: {
+        type: String,
+        allowedValues: ['desenvolupament', 'preproduccio', 'kernel-zone', 'zone'],
         renderer: (value) => {
-            var i = Math.floor( Math.log(value) / Math.log(1024) );
-            return ( value / Math.pow(1024, i) ).toFixed(2) * 1 + ' ' + [/*'B', 'kB',*/ 'MB', 'GB', 'TB'][i];
+            return {
+                desenvolupament: 'Desenvolupament',
+                preproduccio: 'Preproduccio',
+                'kernel-zone': 'Kernel Zone',
+                zone: 'Zone'
+            }[value];
+        }
+    },
+    vcpus: { type: SimpleSchema.Integer, label: 'Virtual CPUs' },
+    memory: {
+        type: SimpleSchema.Integer,
+        renderer: (value) => {
+            var i = Math.floor(Math.log(value) / Math.log(1024));
+            return (value / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + [/*'B', 'kB',*/ 'MB', 'GB', 'TB'][i];
         }
     },
     operating_system: OperatingSystemSchema,
-    server: { 
+    server: {
         type: ServerSchema,
         optional: true
     }
-});
+}, { requiredByDefault: false });
 
 HostsCollection.attachSchema(HostSchema);
