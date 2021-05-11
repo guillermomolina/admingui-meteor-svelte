@@ -2,51 +2,51 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 
 Meteor.methods({
-  'servers.insert'(text) {
+  'hosts.insert'(text) {
     check(text, String);
 
     if (!this.userId) {
       throw new Meteor.Error('Not authorized.');
     }
 
-    ServersCollection.insert({
+    HostsCollection.insert({
       text,
       createdAt: new Date(),
       userId: this.userId,
     });
   },
 
-  'servers.remove'(serverId) {
-    check(serverId, String);
+  'hosts.remove'(hostId) {
+    check(hostId, String);
 
     if (!this.userId) {
       throw new Meteor.Error('Not authorized.');
     }
 
-    const server = ServersCollection.findOne({ _id: serverId, userId: this.userId });
+    const host = HostsCollection.findOne({ _id: hostId, userId: this.userId });
 
-    if (!server) {
+    if (!host) {
       throw new Meteor.Error('Access denied.');
     }
 
-    ServersCollection.remove(serverId);
+    HostsCollection.remove(hostId);
   },
 
-  'servers.setIsChecked'(serverId, isChecked) {
-    check(serverId, String);
+  'hosts.setIsChecked'(hostId, isChecked) {
+    check(hostId, String);
     check(isChecked, Boolean);
 
     if (!this.userId) {
       throw new Meteor.Error('Not authorized.');
     }
 
-    const server = ServersCollection.findOne({ _id: serverId, userId: this.userId });
+    const host = HostsCollection.findOne({ _id: hostId, userId: this.userId });
 
-    if (!server) {
+    if (!host) {
       throw new Meteor.Error('Access denied.');
     }
 
-    ServersCollection.update(serverId, {
+    HostsCollection.update(hostId, {
       $set: {
         isChecked,
       },

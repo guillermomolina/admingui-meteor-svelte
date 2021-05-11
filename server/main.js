@@ -1,15 +1,15 @@
 import '../imports/lib/startup';
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
-import { ServersCollection } from '/imports/db/ServersCollection';
-import '/imports/api/serversMethods';
-import '/imports/api/serversPublications';
+import { HostsCollection } from '/imports/db/HostsCollection';
+import '/imports/api/hostsMethods';
+import '/imports/api/hostsPublications';
 import { null_to_empty } from 'svelte/internal';
 
-const insertServer = (server, user) => {
-  server.userId = user._id
-  server.createdAt = new Date(),
-  ServersCollection.insert(server);
+const insertHost = (host, user) => {
+  host.userId = user._id
+  host.createdAt = new Date(),
+  HostsCollection.insert(host);
 }
 
 const SEED_USERNAME = 'user';
@@ -25,7 +25,7 @@ Meteor.startup(() => {
 
   const user = Accounts.findUserByUsername(SEED_USERNAME);
 
-  if (ServersCollection.find().count() === 0) {
+  if (HostsCollection.find().count() === 0) {
     [
       {
         name: 'desa2-1',
@@ -40,6 +40,8 @@ Meteor.startup(() => {
           version: '11.4',
           revision: '11.4.31.88.5'
         },
+        vcpus: 256,
+        memory: 524288,
         server: {
           vendor: 'Oracle',
           serial_number: '2113NMC001',
@@ -66,9 +68,7 @@ Meteor.startup(() => {
             size: 1090000,
             count: 2
           }
-        },
-        vcpus: 256,
-        memory: 512*1024*1024
+        }
       },
       {
         name: 'testp1-1',
@@ -83,7 +83,9 @@ Meteor.startup(() => {
           version: '11.4',
           revision: '11.4.31.88.5'
         },
-        server: {
+        vcpus: 256,
+        memory: 262144,
+        host: {
           vendor: 'Oracle',
           serial_number: '1825NN835H',
           oracle_csi: '21856476',
@@ -109,11 +111,57 @@ Meteor.startup(() => {
             size: 600000,
             count: 2
           }
-        },
-        vcpus: 256,
-        memory: 256*1024*1024
+        }
       },
-    ].forEach(server => insertServer(server, user));
+      {
+        name: 'des-antic-a1',
+        domain: 'base.des',
+        type: 'ldom',
+        class: 'sun4v',
+        architecture: 'sparc',
+        container: 'desa2-1',
+        category: 'desenvolupament',
+        operating_system: {
+          name: 'Solaris',
+          version: '11.4',
+          revision: '11.4.31.88.5'
+        },
+        vcpus: 64,
+        memory: 65536,
+      },
+      {
+        name: 'des-empleat-app0-1',
+        domain: 'base.des',
+        type: 'kernel-zone',
+        class: 'sun4v',
+        architecture: 'sparc',
+        container: 'desa2-1',
+        category: 'desenvolupament',
+        operating_system: {
+          name: 'Solaris',
+          version: '11.4',
+          revision: '11.4.31.88.5'
+        },
+        vcpus: 8,
+        memory: 8192,
+      },
+      {
+        name: 'des-app1',
+        domain: 'base.des',
+        type: 'zone',
+        class: 'sun4v',
+        architecture: 'sparc',
+        container: 'des-antic-a1',
+        category: 'desenvolupament',
+        operating_system: {
+          name: 'Solaris',
+          version: '10',
+          revision: '10'
+        },
+        vcpus: 8,
+        memory: 8192,
+      }
+    ].forEach(host => insertHost(host, user));
   }
 
 });

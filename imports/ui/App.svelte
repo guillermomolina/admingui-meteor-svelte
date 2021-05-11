@@ -5,11 +5,11 @@
     import Navbar from "./Navbar.svelte";
     import Sidebar from "./Sidebar.svelte";
     import Footer from "./Footer.svelte";
-    import ServersPage from "./ServersPage.svelte";
+    import NodesPage from "./HostPage.svelte";
     import LoginForm from "./LoginForm.svelte";
 
     let user = null;
-    let segment = "servers";
+    let segment = "nodes";
 
     let theme = "dark";
     let color = "dark";
@@ -40,7 +40,7 @@
                 <div id="layoutSidenav_content">
                     <main>
                         <Container fluid={true}>
-                            <ServersPage />
+                            <NodesPage />
                         </Container>
                     </main>
                     <Footer />
@@ -51,3 +51,9 @@
         <LoginForm />
     {/if}
 </div>
+
+<style>
+    #layoutSidenav_content {
+        margin-top: 1.5rem
+    }
+</style>
