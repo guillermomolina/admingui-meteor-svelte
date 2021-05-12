@@ -7,14 +7,26 @@
     Form,
     FormGroup,
     Input,
-    InputGroup,
-    InputGroupAddon,
     Button,
     Label,
   } from 'sveltestrap';
-  import { OperatingSystemSchema, HostSchema, ServerSchema } from '../db/HostsCollection';
+  import { beforeUpdate } from 'svelte';
+  import {
+    OperatingSystemSchema,
+    HostSchema,
+    ServerSchema,
+  } from '../db/HostsCollection';
   import { SimpleSchema_render } from '../lib/helper';
+  import FormGroupMemory from '../components/FormGroupMemory.svelte';
+  import FormGroupSelect from '../components/FormGroupSelect.svelte';
+  import FormGroupText from '../components/FormGroupText.svelte';
+  import FormGroupNumber from '../components/FormGroupNumber.svelte';
   export let host;
+  $: server = 'server' in host? host.server : { vendor: ''};
+  let host_memory_number = 0;
+
+  beforeUpdate(() => {
+  });
 
   const handleSubmit = () => {
     if (!host.name) return;
@@ -29,123 +41,24 @@
   </CardHeader>
   <CardBody>
     <Form>
-      <FormGroup row>
-        <Label
-          class='col-sm-2 text-right'
-          style='margin-top: 0.25rem; margin-bottom: 0.25rem'
-          >{HostSchema.label('name')}</Label
-        >
-        <Input class='col-sm-10' bind:value={host.name} />
-      </FormGroup>
-      <FormGroup row>
-        <Label
-          class='col-sm-2 text-right'
-          style='margin-top: 0.25rem; margin-bottom: 0.25rem'
-          >{HostSchema.label('category')}</Label
-        >
-        <Input class='col-sm-10' bind:value={host.category} />
-      </FormGroup>
-      <FormGroup row>
-        <Label
-          class='col-sm-2 text-right'
-          style='margin-top: 0.25rem; margin-bottom: 0.25rem'
-          >{HostSchema.label('type')}</Label
-        >
-        <Input class='col-sm-10' bind:value={host.type} type='select'>
-          {#each HostSchema.getAllowedValuesForKey('type') as type}
-            <option>{SimpleSchema_render(HostSchema, 'type', type)}</option>
-          {/each}
-        </Input>
-      </FormGroup>
-      <FormGroup row>
-        <Label
-          class='col-sm-2 text-right'
-          style='margin-top: 0.25rem; margin-bottom: 0.25rem'
-          >{HostSchema.label('class')}</Label
-        >
-        <Input class='col-sm-10' bind:value={host.class} />
-      </FormGroup>
-      <FormGroup row>
-        <Label
-          class='col-sm-2 text-right'
-          style='margin-top: 0.25rem; margin-bottom: 0.25rem'
-          >{HostSchema.label('architecture')}</Label
-        >
-        <Input class='col-sm-10' bind:value={host.architecture} />
-      </FormGroup>
-      <FormGroup row>
-        <Label
-          class='col-sm-2 text-right'
-          style='margin-top: 0.25rem; margin-bottom: 0.25rem'
-          >{HostSchema.label('container')}</Label
-        >
-        <Input class='col-sm-10' bind:value={host.container} />
-      </FormGroup>
-      <FormGroup row>
-        <Label
-          class='col-sm-2 text-right'
-          style='margin-top: 0.25rem; margin-bottom: 0.25rem'
-          >{HostSchema.label('vcpus')}</Label
-        >
-        <Input class='col-sm-10' bind:value={host.vcpus} />
-      </FormGroup>
-      <FormGroup row>
-        <Label
-          class='col-sm-2 text-right'
-          style='margin-top: 0.25rem; margin-bottom: 0.25rem'
-        >
-          {HostSchema.label('memory')}
-        </Label>
-        <InputGroup class='col-sm-10' style='padding: 0'>
-          <Input bind:value={host.memory} type='number' />
-          <InputGroupAddon addonType='append'>
-            <Input type='select'>
-              <option>MB</option>
-              <option>GB</option>
-              <option>TB</option>
-            </Input>
-          </InputGroupAddon>
-        </InputGroup>
-      </FormGroup>
+      <FormGroupText schema={HostSchema} key='name' bind:object={host}/>
+      <FormGroupSelect schema={HostSchema} key='category' bind:object={host}/>
+      <FormGroupSelect schema={HostSchema} key='type' bind:object={host}/>
+      <FormGroupText schema={HostSchema} key='class' bind:object={host}/>
+      <FormGroupText schema={HostSchema} key='architecture' bind:object={host}/>
+      <FormGroupText schema={HostSchema} key='container' bind:object={host}/>
+      <FormGroupNumber schema={HostSchema} key='vcpus' bind:object={host}/>
+      <FormGroupMemory schema={HostSchema} key='memory' bind:object={host}/>
 
       <h5>Operating system</h5>
-      <FormGroup row>
-        <Label
-          class='col-sm-2 text-right'
-          style='margin-top: 0.25rem; margin-bottom: 0.25rem'
-          >{OperatingSystemSchema.label('name')}</Label
-        >
-        <Input class='col-sm-10' bind:value={host.operating_system.name} />
-      </FormGroup>
-      <FormGroup row>
-        <Label
-          class='col-sm-2 text-right'
-          style='margin-top: 0.25rem; margin-bottom: 0.25rem'
-          >{OperatingSystemSchema.label('version')}</Label
-        >
-        <Input class='col-sm-10' bind:value={host.operating_system.version} />
-      </FormGroup>
-      <FormGroup row>
-        <Label
-          class='col-sm-2 text-right'
-          style='margin-top: 0.25rem; margin-bottom: 0.25rem'
-          >{OperatingSystemSchema.label('revision')}</Label
-        >
-        <Input class='col-sm-10' bind:value={host.operating_system.revision} />
-      </FormGroup>
+      <FormGroupText schema={OperatingSystemSchema} key='name' bind:object={host.operating_system}/>
+      <FormGroupText schema={OperatingSystemSchema} key='version' bind:object={host.operating_system}/>
+      <FormGroupText schema={OperatingSystemSchema} key='revision' bind:object={host.operating_system}/>
 
-      {#if 'server' in host && host.type === 'server'}
+      {#if host.type === 'server' && 'server' in host}
         <h5>Server</h5>
-        <FormGroup row>
-          <Label
-            class='col-sm-2 text-right'
-            style='margin-top: 0.25rem; margin-bottom: 0.25rem'
-            >{ServerSchema.label('vendor')}</Label
-          >
-          <Input class='col-sm-10' bind:value={host.server.vendor} />
-        </FormGroup>
+        <FormGroupText schema={ServerSchema} key='vendor' bind:object={host.server}/>
       {/if}
-
     </Form>
   </CardBody>
   <CardFooter>

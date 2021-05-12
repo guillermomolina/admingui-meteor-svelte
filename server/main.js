@@ -41,7 +41,7 @@ Meteor.startup(() => {
           revision: '11.4.31.88.5'
         },
         vcpus: 256,
-        memory: 524288,
+        memory: 512.0 * Math.pow(1024, 3),
         server: {
           vendor: 'Oracle',
           serial_number: '2113NMC001',
@@ -52,7 +52,7 @@ Meteor.startup(() => {
           },
           cpu: {
             type: 'SPARC M8',
-            frequency: 5067,
+            frequency: 5.067 * Math.pow(1024, 3),
             count: 1,
             cores: 32,
             threads: 8
@@ -60,12 +60,12 @@ Meteor.startup(() => {
           memory: {
             type: 'DDR4-2400',
             count: 16,
-            size: 32768
+            size: 32.0 * Math.pow(1024, 3)
           },
           disk: {
             type: 'SAS3',
             rpm: 10000,
-            size: 1090000,
+            size: 1.0 * Math.pow(1024, 4),
             count: 2
           }
         }
@@ -84,7 +84,7 @@ Meteor.startup(() => {
           revision: '11.4.31.88.5'
         },
         vcpus: 256,
-        memory: 262144,
+        memory: 256.0 * Math.pow(1024, 3),
         host: {
           vendor: 'Oracle',
           serial_number: '1825NN835H',
@@ -95,7 +95,7 @@ Meteor.startup(() => {
           },
           cpu: {
             type: 'SPARC M8',
-            frequency: 5067,
+            frequency: 5.067 * Math.pow(1024, 3),
             count: 1,
             cores: 32,
             threads: 8
@@ -103,12 +103,12 @@ Meteor.startup(() => {
           memory: {
             type: 'DDR4-2400',
             count: 8,
-            size: 32768
+            size: 32.0 * Math.pow(1024, 3)
           },
           disk: {
             type: 'SAS3',
             rpm: 10000,
-            size: 600000,
+            size: 600.0 * Math.pow(1024, 3),
             count: 2
           }
         }
@@ -127,7 +127,7 @@ Meteor.startup(() => {
           revision: '11.4.31.88.5'
         },
         vcpus: 64,
-        memory: 65536,
+        memory: 64.0 * Math.pow(1024, 3),
       },
       {
         name: 'des-empleat-app0-1',
@@ -143,7 +143,7 @@ Meteor.startup(() => {
           revision: '11.4.31.88.5'
         },
         vcpus: 8,
-        memory: 8192,
+        memory: 8.0 * Math.pow(1024, 3),
       },
       {
         name: 'des-app1',
@@ -159,7 +159,7 @@ Meteor.startup(() => {
           revision: '10'
         },
         vcpus: 8,
-        memory: 8192,
+        memory: 8.0 * Math.pow(1024, 3),
       }
     ].forEach(host => insertHost(host, user));
   }

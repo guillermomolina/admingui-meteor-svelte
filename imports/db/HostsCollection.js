@@ -18,18 +18,18 @@ export const ServerSchema = new SimpleSchema({
     'location.cpd': String,
     'cpu': Object,
     'cpu.type': String,
-    'cpu.frequency': SimpleSchema.Integer,
+    'cpu.frequency': Number,
     'cpu.count': SimpleSchema.Integer,
     'cpu.cores': SimpleSchema.Integer,
     'cpu.threads': SimpleSchema.Integer,
     'memory': Object,
     'memory.type': String,
     'memory.count': SimpleSchema.Integer,
-    'memory.size': SimpleSchema.Integer,
+    'memory.size': Number,
     'disk': Object,
     'disk.type': String,
     'disk.rpm': { type: SimpleSchema.Integer, label: 'RPMs' },
-    'disk.size': SimpleSchema.Integer,
+    'disk.size': Number,
     'disk.count': SimpleSchema.Integer,
 }, { requiredByDefault: false });
 
@@ -56,22 +56,23 @@ export const HostSchema = new SimpleSchema({
     },
     category: {
         type: String,
-        allowedValues: ['desenvolupament', 'preproduccio', 'kernel-zone', 'zone'],
+        allowedValues: ['desenvolupament', 'preproduccio', 'produccio', 'integracio', 'gestio'],
         renderer: (value) => {
             return {
                 desenvolupament: 'Desenvolupament',
-                preproduccio: 'Preproduccio',
-                'kernel-zone': 'Kernel Zone',
-                zone: 'Zone'
+                preproduccio: 'Preproducció',
+                produccio: 'Producció',
+                integracio: 'Integració',
+                gestio: 'Gestió'
             }[value];
         }
     },
     vcpus: { type: SimpleSchema.Integer, label: 'Virtual CPUs' },
     memory: {
-        type: SimpleSchema.Integer,
+        type: Number,
         renderer: (value) => {
             var i = Math.floor(Math.log(value) / Math.log(1024));
-            return (value / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + [/*'B', 'kB',*/ 'MB', 'GB', 'TB'][i];
+            return (value / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
         }
     },
     operating_system: OperatingSystemSchema,
