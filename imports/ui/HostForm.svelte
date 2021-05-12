@@ -50,13 +50,13 @@
       <FormGroupNumber schema={HostSchema} key='vcpus' bind:object={host}/>
       <FormGroupMemory schema={HostSchema} key='memory' bind:object={host}/>
 
-      <h5>Operating system</h5>
+      <h5 class="text-center">Operating system</h5>
       <FormGroupText schema={OperatingSystemSchema} key='name' bind:object={host.operating_system}/>
       <FormGroupText schema={OperatingSystemSchema} key='version' bind:object={host.operating_system}/>
       <FormGroupText schema={OperatingSystemSchema} key='revision' bind:object={host.operating_system}/>
 
       {#if host.type === 'server' && 'server' in host}
-        <h5>Server</h5>
+        <h5 class="text-center">Server</h5>
         <FormGroupText schema={ServerSchema} key='vendor' bind:object={host.server}/>
       {/if}
     </Form>
