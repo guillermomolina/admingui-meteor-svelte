@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import { HostsCollection } from '/imports/db/HostsCollection';
 import '/imports/api/hostsMethods';
 
-if (Meteor.isHost) {
+if (Meteor.isServer) {
   describe('Hosts', () => {
     describe('methods', () => {
       const userId = Random.id();

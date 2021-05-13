@@ -1,9 +1,4 @@
 <script>
-    import {
-        FormGroup,
-        Input,
-        Label,
-    } from 'sveltestrap';
     import { SimpleSchema_render } from '../lib/helper';
 
     export let schema;
@@ -11,13 +6,13 @@
     export let object;
 </script>
 
-
-<FormGroup row>
-    <Label
+<div class='row form-group'>
+    <label
+      for={key}
       class='col-sm-2 text-right'
       style='margin-top: 0.25rem; margin-bottom: 0.25rem'
       >
       {schema.label(key)}
-    </Label>
-    <Input type='number' class='col-sm-10' bind:value={object[key]} />
-</FormGroup>
+    </label>
+    <input type='number' id={key} class='col-sm-10 form-control' bind:value={object[key]} />
+</div>

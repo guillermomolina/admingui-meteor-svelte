@@ -16,3 +16,4 @@
     </label>
     <input id={key} class='col-sm-10 form-control' bind:value={object[key]} />
 </div>
+

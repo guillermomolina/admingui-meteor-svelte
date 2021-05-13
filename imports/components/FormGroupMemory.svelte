@@ -1,12 +1,4 @@
 <script>
-    import {
-        FormGroup,
-        Input,
-        InputGroup,
-        InputGroupAddon,
-        Label,
-    } from 'sveltestrap';
-
     const units = ['B', 'kB', 'MB', 'GB', 'TB'];
 
     export let schema;
@@ -29,21 +21,20 @@
 </script>
 
 
-<FormGroup row>
-    <Label
+<div class='row form-group' >
+    <label
+        for={key}
         class='col-sm-2 text-right'
         style='margin-top: 0.25rem; margin-bottom: 0.25rem'
-    >
-        {schema.label(key)}
-    </Label>
-    <InputGroup class='col-sm-10' style='padding: 0'>
-        <Input bind:value={number} type='number' on:change={setValue}/>
-        <InputGroupAddon addonType='append'>
-            <Input bind:value={unit}  type='select'  on:change={setUnit}>
+    >{ schema.label(key) }</label>
+    <div id={key} class='input-group col-sm-10' style='padding: 0'>
+        <input class='form-control' bind:value={number} type='number' on:change={setValue}/>
+        <div class='input-group-append'>
+            <select class='form-control' bind:value={unit}  type='select'  on:blur={setUnit}>
                 {#each units as option}
                     <option value={option}>{option}</option>
                 {/each}
-            </Input>
-        </InputGroupAddon>
-    </InputGroup>
-</FormGroup>
+            </select>
+        </div>
+    </div>
+</div>

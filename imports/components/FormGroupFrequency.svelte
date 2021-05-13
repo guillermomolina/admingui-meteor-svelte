@@ -1,12 +1,4 @@
 <script>
-    import {
-        FormGroup,
-        Input,
-        InputGroup,
-        InputGroupAddon,
-        Label,
-    } from 'sveltestrap';
-
     const unit_name = 'Hz';
     const exp_names = ['', 'k', 'M', 'G', 'T'];
     const units = ['Hz', 'kHz', 'MHz', 'GHz', 'THz'];
@@ -32,7 +24,7 @@
 </script>
 
 
-<div class='row' >
+<div class='row form-group' >
     <label
         for={key}
         class='col-sm-2 text-right'

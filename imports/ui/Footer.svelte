@@ -6,12 +6,7 @@
     <Container fluid={true}>
       <div class="d-flex align-items-center justify-content-between small">
         <div class="text-muted">
-          Made with love by
-          <a href="https://geekyants.com/srishti-sharma">Srishti</a>
-          &
-          <a href="https://geekyants.com/sankhadeep">Sankhadeep</a>
-          at
-          <a href="https://geekyants.com/">GeekyAnts</a>
+          Made with love by <a href="https://guillermomolina.com">Guillermo</a>
         </div>
         <div>
           <a href="#">Privacy Policy</a>
