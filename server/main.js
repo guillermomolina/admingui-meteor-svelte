@@ -85,7 +85,7 @@ Meteor.startup(() => {
         },
         vcpus: 256,
         memory: 256.0 * Math.pow(1024, 3),
-        host: {
+        server: {
           vendor: 'Oracle',
           serial_number: '1825NN835H',
           oracle_csi: '21856476',

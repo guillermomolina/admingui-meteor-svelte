@@ -9,28 +9,40 @@ export const OperatingSystemSchema = new SimpleSchema({
     'revision': String,
 }, { requiredByDefault: false });
 
+export const ServerLocationSchema = new SimpleSchema({
+    'rack': String,
+    'cpd': String
+}, { requiredByDefault: false });
+
+export const ServerCPUSchema = new SimpleSchema({
+    'type': String,
+    'frequency': Number,
+    'count': SimpleSchema.Integer,
+    'cores': SimpleSchema.Integer,
+    'threads': SimpleSchema.Integer,
+}, { requiredByDefault: false });
+
+export const ServerMemorySchema = new SimpleSchema({
+    'type': String,
+    'count': SimpleSchema.Integer,
+    'size': Number,
+}, { requiredByDefault: false });
+
+export const ServerDiskSchema = new SimpleSchema({
+    'type': String,
+    'count': SimpleSchema.Integer,
+    'rpm': { type: SimpleSchema.Integer, label: 'RPMs' },
+    'size': Number,
+}, { requiredByDefault: false });
+
 export const ServerSchema = new SimpleSchema({
     'vendor': String,
     'serial_number': String,
-    'oracle_csi': String,
-    'location': Object,
-    'location.rack': String,
-    'location.cpd': String,
-    'cpu': Object,
-    'cpu.type': String,
-    'cpu.frequency': Number,
-    'cpu.count': SimpleSchema.Integer,
-    'cpu.cores': SimpleSchema.Integer,
-    'cpu.threads': SimpleSchema.Integer,
-    'memory': Object,
-    'memory.type': String,
-    'memory.count': SimpleSchema.Integer,
-    'memory.size': Number,
-    'disk': Object,
-    'disk.type': String,
-    'disk.rpm': { type: SimpleSchema.Integer, label: 'RPMs' },
-    'disk.size': Number,
-    'disk.count': SimpleSchema.Integer,
+    'oracle_csi': { type: String, label: 'Oracle CSI' },
+    'location': ServerLocationSchema,
+    'cpu': ServerCPUSchema,
+    'memory': ServerMemorySchema,
+    'disk': ServerDiskSchema,
 }, { requiredByDefault: false });
 
 export const HostSchema = new SimpleSchema({
@@ -78,7 +90,29 @@ export const HostSchema = new SimpleSchema({
     operating_system: OperatingSystemSchema,
     server: {
         type: ServerSchema,
-        optional: true
+        optional: true,
+        custom: function () {
+            let isTypeServer = this.field('type').value === 'server';
+
+            if (isTypeServer) {
+                // inserts
+                if (!this.operator) {
+                    if (!this.isSet || this.value === null || this.value === "") return SimpleSchema.ErrorTypes.REQUIRED;
+                }
+
+                // updates
+                else if (this.isSet) {
+                    if (this.operator === "$set" && this.value === null || this.value === "") return SimpleSchema.ErrorTypes.REQUIRED;
+                    if (this.operator === "$unset") return SimpleSchema.ErrorTypes.REQUIRED;
+                    if (this.operator === "$rename") return SimpleSchema.ErrorTypes.REQUIRED;
+                }
+            } else {
+                // updates
+                if (this.isSet || this.value !== null) {
+                    return SimpleSchema.ErrorTypes.VALUE_NOT_ALLOWED;
+                }
+            }
+        }
     }
 }, { requiredByDefault: false });
 

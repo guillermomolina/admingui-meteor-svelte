@@ -1,0 +1,51 @@
+<script>
+    import {
+        FormGroup,
+        Input,
+        InputGroup,
+        InputGroupAddon,
+        Label,
+    } from 'sveltestrap';
+
+    const unit_name = 'Hz';
+    const exp_names = ['', 'k', 'M', 'G', 'T'];
+    const units = ['Hz', 'kHz', 'MHz', 'GHz', 'THz'];
+    const multiplier = 1024;
+
+    export let schema;
+    export let key;
+    export let object;
+    $: value = key in object? object[key]: 0; 
+    $: exp = Math.floor(Math.log(value) / Math.log(multiplier));
+    $: number = (value / Math.pow(multiplier, exp)).toFixed(2) * 1;
+    $: unit = units[exp];
+
+    const setValue = () => {
+       new_exp = units.indexOf(unit);
+       object[key] = number * Math.pow(multiplier, new_exp);
+    }
+
+    const setUnit = (event) => {
+        new_exp = units.indexOf(event.target.value);
+        object[key] = number * Math.pow(multiplier, new_exp);
+    }
+</script>
+
+
+<div class='row' >
+    <label
+        for={key}
+        class='col-sm-2 text-right'
+        style='margin-top: 0.25rem; margin-bottom: 0.25rem'
+    >{ schema.label(key) }</label>
+    <div id={key} class='input-group col-sm-10' style='padding: 0'>
+        <input class='form-control' bind:value={number} type='number' on:change={setValue}/>
+        <div class='input-group-append'>
+            <select class='form-control' bind:value={unit}  type='select'  on:blur={setUnit}>
+                {#each units as option}
+                    <option value={option}>{option}</option>
+                {/each}
+            </select>
+        </div>
+    </div>
+</div>
