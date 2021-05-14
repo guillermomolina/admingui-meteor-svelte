@@ -4,6 +4,7 @@
     export let schema;
     export let key;
     export let object = {};
+    export let id = [key, Date.now()].join('_');
     $: value = key in object? object[key]: 0; 
     $: exp = Math.floor(Math.log(value) / Math.log(1024));
     $: number = (value / Math.pow(1024, exp)).toFixed(2) * 1;
@@ -23,11 +24,11 @@
 
 <div class='row form-group' >
     <label
-        for={key}
+        for={id}
         class='col-sm-2 text-right'
         style='margin-top: 0.25rem; margin-bottom: 0.25rem'
     >{ schema.label(key) }</label>
-    <div id={key} class='input-group col-sm-10' style='padding: 0'>
+    <div {id} class='input-group col-sm-10' style='padding: 0'>
         <input class='form-control' bind:value={number} type='number' on:change={setValue}/>
         <div class='input-group-append'>
             <select class='form-control' bind:value={unit}  type='select'  on:blur={setUnit}>

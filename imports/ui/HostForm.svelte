@@ -1,4 +1,5 @@
 <script>
+	import { beforeUpdate } from 'svelte';
   import {
     Card,
     CardHeader,
@@ -8,6 +9,7 @@
     Button,
   } from 'sveltestrap';
   import {
+    HostsCollection,
     OperatingSystemSchema,
     HostSchema,
   } from '../db/HostsCollection';
@@ -16,13 +18,28 @@
   import FormGroupText from '../components/FormGroupText.svelte';
   import FormGroupNumber from '../components/FormGroupNumber.svelte';
   import ServerSubForm from './ServerSubForm.svelte';
-  export let host;
+
+  export let host_name = '';
+  let host;
+
+  const handler = Meteor.subscribe("hosts");
+  $m: {
+    loading = !handler.ready();
+    hosts = HostsCollection.find({ name: host_name });
+    host = hosts.count() === 1? hosts.fetch()[0]: {};
+  }
 
   const handleSubmit = () => {
     if (!host.name) return;
 
     Meteor.call('hosts.insert', newHost);
   };
+
+	beforeUpdate(() => {
+		host = host || {};
+    host.operating_system = host.operating_system || {};
+	});
+
 </script>
 
 <Card class='mb-4'>
@@ -32,6 +49,7 @@
   <CardBody>
     <Form>
       <FormGroupText schema={HostSchema} key='name' bind:object={host}/>
+      <FormGroupText schema={HostSchema} key='domain' bind:object={host}/>
       <FormGroupSelect schema={HostSchema} key='category' bind:object={host}/>
       <FormGroupSelect schema={HostSchema} key='type' bind:object={host}/>
       <FormGroupText schema={HostSchema} key='class' bind:object={host}/>

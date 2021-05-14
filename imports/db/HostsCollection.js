@@ -56,7 +56,7 @@ export const HostSchema = new SimpleSchema({
                 server: 'Server',
                 'logical-domain': 'Logical domain',
                 'kernel-zone': 'Kernel Zone',
-                'solaris10-zone': 'Kernel Zone',
+                'solaris10-zone': 'Solaris 10 Zone',
                 zone: 'Zone'
             }[value];
         }

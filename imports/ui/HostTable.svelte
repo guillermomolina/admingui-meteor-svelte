@@ -1,48 +1,148 @@
 <script>
-  import { Card, CardHeader, CardBody, CardFooter, Table } from "sveltestrap";
+  import { HostsCollection } from "../db/HostsCollection";
+  import { Card, CardHeader, CardBody, CardFooter } from "sveltestrap";
   import { HostSchema } from "../db/HostsCollection";
-  import { SimpleSchema_render } from '../lib/helper';
+  import { SimpleSchema_render } from "../lib/helper";
+  import Table, { Pagination, Search, Sort } from "../components/Table.svelte";
 
-  export let hosts;
-  export let host;
+  export let host_name;
+  let rows = [];
+  let page = 0; //first page
+  let pageSize = 10; //optional, 10 by default
 
-  const select = (row) => () => (host = row);
+  let loading = true;
+  let rowsCount = 0;
+  let text = "";
+  let sort = {};
+
+  const select = (row) => () => (host_name = row.name);
+
+
+  let hosts = [];
+  const handler = Meteor.subscribe("hosts");
+  $m: {
+    loading = !handler.ready();
+    const regex = {$regex : `.*${text}.*`};
+    const search = text === ''? {}: {
+      $or: [
+        { name: regex },
+        { type: regex },
+        { category: regex }
+      ]
+    };
+    const query = HostsCollection.find(search, {
+      fields: { name: 1, type: 1, category: 1, vcpus: 1, memory: 1 },
+      sort, 
+      skip: page * pageSize, 
+      limit: pageSize
+    });
+    rows = query.fetch();
+
+    rowsCount = query.count(false);
+  }
+
+  const onPageChange = (event) => {
+    page = event.detail.page;
+  };
+
+  const onSearch = (event) => {
+    text = event.detail.text;
+    page = 0;
+  }
+
+  const onSort = (event) => {
+    newSort = {}
+    newSort[event.detail.key] = event.detail.dir;
+    sort = newSort;
+  }
 </script>
 
 <Card class="mb-4">
   <CardHeader>Hosts</CardHeader>
   <CardBody>
-    <Table responsive hover>
-      <thead>
+    <Table
+      class="table table-hover"
+      {loading}
+      {page}
+      {pageSize}
+      {rows}
+      let:rows={rows2}
+    >
+      <div slot="top">
+        <Search on:search={onSearch} />
+      </div>
+      <thead slot="head">
         <tr>
-          <th>{HostSchema.label("name")}</th>
-          <th>{HostSchema.label("type")}</th>
-          <th>{HostSchema.label("category")}</th>
-          <th>{HostSchema.label("vcpus")}</th>
-          <th>{HostSchema.label("memory")}</th>
+          <th>
+            {HostSchema.label("name")}
+            <Sort key="name" on:sort={onSort}/>
+          </th>
+          <th
+            >{HostSchema.label("type")}<Sort
+              key="type"
+              on:sort={onSort}
+            /></th
+          >
+          <th
+            >{HostSchema.label("category")}<Sort
+              key="category"
+              on:sort={onSort}
+            /></th
+          >
+          <th
+            >{HostSchema.label("vcpus")}<Sort
+              key="vcpus"
+              on:sort={onSort}
+            /></th
+          >
+          <th
+            >{HostSchema.label("memory")}<Sort
+              key="memory"
+              on:sort={onSort}
+            /></th
+          >
           <th />
         </tr>
       </thead>
       <tbody>
-        {#each hosts as row}
+        {#each rows2 as row}
           <tr
             on:click|preventDefault={select(row)}
-            class:highlight={host == row}
+            class:highlight={host_name == row.name}
           >
-            <th scope="row">{row.name}</th>
-            <td>{SimpleSchema_render(HostSchema, 'type', row.type)}</td>
-            <td>{SimpleSchema_render(HostSchema, 'category', row.category)}</td>
-            <td>{SimpleSchema_render(HostSchema, 'vcpus', row.vcpus)}</td>
-            <td>{SimpleSchema_render(HostSchema, 'memory', row.memory)}</td>
-            <td/>
+            <td data-label={HostSchema.label("name")}
+              >{SimpleSchema_render(HostSchema, "name", row.name)}</td
+            >
+            <td data-label={HostSchema.label("type")}
+              >{SimpleSchema_render(HostSchema, "type", row.type)}</td
+            >
+            <td data-label={HostSchema.label("category")}
+              >{SimpleSchema_render(HostSchema, "category", row.category)}</td
+            >
+            <td data-label={HostSchema.label("vcpus")}
+              >{SimpleSchema_render(HostSchema, "vcpus", row.vcpus)}</td
+            >
+            <td data-label={HostSchema.label("memory")}
+              >{SimpleSchema_render(HostSchema, "memory", row.memory)}</td
+            >
+            <td />
           </tr>
         {/each}
       </tbody>
+      <div slot="bottom">
+        <Pagination
+          {page}
+          {pageSize}
+          count={rowsCount}
+          serverSide={true}
+          on:pageChange={onPageChange}
+        />
+      </div>
     </Table>
   </CardBody>
   <CardFooter>
-    {#if host.name}
-      Selected: {host.name}
+    {#if host_name}
+      Selected: {host_name}
     {:else}
       Select a host
     {/if}
