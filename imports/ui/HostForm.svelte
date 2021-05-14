@@ -49,7 +49,7 @@
         </CardBody>
       </Card>
 
-      {#if host.type === 'server'}
+      {#if 'type' in host && host.type === 'server'}
         <ServerSubForm server={host.server} />
       {/if}
     </Form>

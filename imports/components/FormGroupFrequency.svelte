@@ -6,7 +6,7 @@
 
     export let schema;
     export let key;
-    export let object;
+    export let object = {};
     $: value = key in object? object[key]: 0; 
     $: exp = Math.floor(Math.log(value) / Math.log(multiplier));
     $: number = (value / Math.pow(multiplier, exp)).toFixed(2) * 1;

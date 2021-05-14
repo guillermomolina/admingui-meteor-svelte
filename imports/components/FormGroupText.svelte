@@ -3,7 +3,8 @@
 
     export let schema;
     export let key;
-    export let object;
+    export let object = {};
+
 </script>
 
 <div class='row form-group'>

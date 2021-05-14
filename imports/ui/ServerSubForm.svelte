@@ -1,4 +1,5 @@
 <script>
+	import { beforeUpdate } from 'svelte';
   import {
     ServerSchema,
     ServerLocationSchema,
@@ -12,6 +13,15 @@
   import FormGroupMemory from '../components/FormGroupMemory.svelte';
 
   export let server;
+
+	beforeUpdate(() => {
+		server = server || {};
+    server.location = server.location || {};
+    server.cpu = server.cpu || {};
+    server.memory = server.memory || {};
+    server.disk = server.disk || {};
+	});
+
 </script>
 
 <div class='card border-light mb-4'>
@@ -55,7 +65,7 @@
         <FormGroupText schema={ServerDiskSchema} key='type' bind:object={server.disk}/>
         <FormGroupNumber schema={ServerDiskSchema} key='count' bind:object={server.disk}/>
         <FormGroupMemory schema={ServerDiskSchema} key='size' bind:object={server.disk}/>
-        <FormGroupNumber schema={ServerDiskSchema} key='rpm' bind:object={server.disk}/>
+        <FormGroupNumber schema={ServerDiskSchema} key='rpms' bind:object={server.disk}/>
       </div>
     </div>
     

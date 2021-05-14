@@ -11,7 +11,7 @@ export const OperatingSystemSchema = new SimpleSchema({
 
 export const ServerLocationSchema = new SimpleSchema({
     'rack': String,
-    'cpd': String
+    'cpd': { type: String, label: 'CPD' }
 }, { requiredByDefault: false });
 
 export const ServerCPUSchema = new SimpleSchema({
@@ -31,7 +31,7 @@ export const ServerMemorySchema = new SimpleSchema({
 export const ServerDiskSchema = new SimpleSchema({
     'type': String,
     'count': SimpleSchema.Integer,
-    'rpm': { type: SimpleSchema.Integer, label: 'RPMs' },
+    'rpms': { type: SimpleSchema.Integer, label: 'RPMs' },
     'size': Number,
 }, { requiredByDefault: false });
 
@@ -50,12 +50,13 @@ export const HostSchema = new SimpleSchema({
     domain: String,
     type: {
         type: String,
-        allowedValues: ['server', 'ldom', 'kernel-zone', 'zone'],
+        allowedValues: ['server', 'logical-domain', 'kernel-zone', 'solaris10-zone', 'zone'],
         renderer: (value) => {
             return {
                 server: 'Server',
-                ldom: 'Logical domain',
+                'logical-domain': 'Logical domain',
                 'kernel-zone': 'Kernel Zone',
+                'solaris10-zone': 'Kernel Zone',
                 zone: 'Zone'
             }[value];
         }
@@ -108,12 +109,13 @@ export const HostSchema = new SimpleSchema({
                 }
             } else {
                 // updates
-                if (this.isSet || this.value !== null) {
+               /* if (this.isSet || this.value !== null) {
                     return SimpleSchema.ErrorTypes.VALUE_NOT_ALLOWED;
-                }
+                }*/
             }
         }
     }
 }, { requiredByDefault: false });
 
 HostsCollection.attachSchema(HostSchema);
+

@@ -31,16 +31,14 @@ import { HostsCollection } from '../db/HostsCollection';
     };
 })();
 
-const bound = Meteor.bindEnvironment((callback) => {callback();});
-
 export function importHosts(fileName) {
     fs.createReadStream(fileName)
         .pipe(csv())
-        .on('data', (row) => {
+        .on('data', Meteor.bindEnvironment((row) => {
             host = Object.expand(row);
-            host.createdAt = new Date(),
-            HostsCollection.insert(host);
-        })
+            id = HostsCollection.insert(host);
+            console.log(`Added host ${row.name} with id ${id}`);
+        }))
         .on('end', () => {
             console.log('CSV file successfully processed');
         });
