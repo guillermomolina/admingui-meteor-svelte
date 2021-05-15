@@ -14,9 +14,9 @@
   export let dir = 0;
   export let key;
   export let labels = {
-    asc: { title: "Ascending", html: "&#8593;" },
-    desc: { title: "Desceding", html: "&#8595;" },
-    unsorted: { title: "Unsorted", html: "&#8645;" },
+    asc: { title: "Ascending", icon: "fa-sort-up" },
+    desc: { title: "Desceding", icon: "fa-sort-down" },
+    unsorted: { title: "Unsorted", icon: "fa-sort" },
     ...globalLabels
   };
 
@@ -27,7 +27,7 @@
     const detail = {
       originalEvent: event,
       key,
-      dir: dir !== -1 ? -1 : 1,
+      dir: dir !== 1 ? 1 : -1,
       rows: state.filteredRows
     };
 
@@ -40,28 +40,18 @@
   }
 </script>
 
-<style>
-  .sort {
-    right: 0;
-    cursor: pointer;
-    position: absolute;
-    padding: 0 0.25em;
-    color: #999;
-  }
-</style>
-
 <span class="sort" on:click={onClick}>
   {#if dir == 1}
     <span title={labels.asc.title}>
-      {@html labels.asc.html}
+      <i class="fas {labels.asc.icon}" />
     </span>
   {:else if dir == -1}
     <span title={labels.desc.title}>
-      {@html labels.desc.html}
+      <i class="fas {labels.desc.icon}" />
     </span>
   {:else}
     <span title={labels.unsorted.title}>
-      {@html labels.unsorted.html}
+      <i class="fas {labels.unsorted.icon}" />
     </span>
   {/if}
 </span>

@@ -42,7 +42,7 @@
 
 </script>
 
-<Card class='mb-4'>
+<Card style="margin-top: 1.5rem">
   <CardHeader>
     {'_id' in host ? 'Modify a host' : 'Add a host'}
   </CardHeader>
@@ -58,7 +58,7 @@
       <FormGroupNumber schema={HostSchema} key='vcpus' bind:object={host}/>
       <FormGroupMemory schema={HostSchema} key='memory' bind:object={host}/>
 
-      <Card class='mb-4 border-light'>
+      <Card class='border-0'>
         <CardHeader class='bg-transparent'>Operating system</CardHeader>
         <CardBody>
           <FormGroupText schema={OperatingSystemSchema} key='name' bind:object={host.operating_system}/>

@@ -11,7 +11,7 @@
   let pageSize = 10; //optional, 10 by default
 
   let loading = true;
-  let rowsCount = 0;
+  let totalRowsCount = 0;
   let text = "";
   let sort = {};
 
@@ -36,9 +36,8 @@
       skip: page * pageSize, 
       limit: pageSize
     });
+    totalRowsCount = query.count(false);
     rows = query.fetch();
-
-    rowsCount = query.count(false);
   }
 
   const onPageChange = (event) => {
@@ -57,7 +56,7 @@
   }
 </script>
 
-<Card class="mb-4">
+<Card style="margin-top: 1.5rem">
   <CardHeader>Hosts</CardHeader>
   <CardBody>
     <Table
@@ -66,11 +65,12 @@
       {page}
       {pageSize}
       {rows}
+      {totalRowsCount}
+      serverSide=true
       let:rows={rows2}
-    >
-      <div slot="top">
-        <Search on:search={onSearch} />
-      </div>
+      on:search={onSearch}
+      on:pageChange={onPageChange}
+>
       <thead slot="head">
         <tr>
           <th>
@@ -129,15 +129,6 @@
           </tr>
         {/each}
       </tbody>
-      <div slot="bottom">
-        <Pagination
-          {page}
-          {pageSize}
-          count={rowsCount}
-          serverSide={true}
-          on:pageChange={onPageChange}
-        />
-      </div>
     </Table>
   </CardBody>
   <CardFooter>

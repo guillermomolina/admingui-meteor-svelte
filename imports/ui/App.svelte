@@ -39,9 +39,7 @@
                 <!-- <Sidebar {segment} {theme} /> -->
                 <div id="layoutSidenav_content">
                     <main>
-                        <Container fluid={true}>
-                            <NodesPage />
-                        </Container>
+                        <NodesPage />
                     </main>
                     <Footer />
                 </div>
@@ -51,9 +49,3 @@
         <LoginForm />
     {/if}
 </div>
-
-<style>
-    #layoutSidenav_content {
-        margin-top: 1.5rem
-    }
-</style>

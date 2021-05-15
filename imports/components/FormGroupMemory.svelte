@@ -25,10 +25,10 @@
 <div class='row form-group' >
     <label
         for={id}
-        class='col-sm-2 text-right'
+        class='col-4 text-right'
         style='margin-top: 0.25rem; margin-bottom: 0.25rem'
     >{ schema.label(key) }</label>
-    <div {id} class='input-group col-sm-10' style='padding: 0'>
+    <div {id} class='input-group col-8' style='padding: 0'>
         <input class='form-control' bind:value={number} type='number' on:change={setValue}/>
         <div class='input-group-append'>
             <select class='form-control' bind:value={unit}  type='select'  on:blur={setUnit}>

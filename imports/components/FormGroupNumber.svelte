@@ -10,10 +10,10 @@
 <div class='row form-group'>
     <label
       for={id}
-      class='col-sm-2 text-right'
+      class='col-4 text-right'
       style='margin-top: 0.25rem; margin-bottom: 0.25rem'
       >
       {schema.label(key)}
     </label>
-    <input type='number' {id} class='col-sm-10 form-control' bind:value={object[key]} />
+    <input type='number' {id} class='col-8 form-control' bind:value={object[key]} />
 </div>

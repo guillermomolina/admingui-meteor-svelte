@@ -25,7 +25,7 @@
     ...globalLabels
   };
 
-  $: pageCount = count > 0? Math.floor((count - 1) / pageSize): 0;
+  $: pageCount = Math.floor(count / pageSize);
 
   function onChange(event, page) {
     const state = stateContext.getState();

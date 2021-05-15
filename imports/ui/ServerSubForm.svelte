@@ -24,14 +24,14 @@
 
 </script>
 
-<div class='card border-light mb-4'>
+<div class='card border-light'>
   <div class='card-header bg-transparent'>Server</div>
   <div class='card-body'>
     <FormGroupText schema={ServerSchema} key='vendor' bind:object={server}/>
     <FormGroupText schema={ServerSchema} key='serial_number' bind:object={server}/>
     <FormGroupText schema={ServerSchema} key='oracle_csi' bind:object={server}/>
 
-    <div class='card border-light mb-4'>
+    <div class='card border-0'>
       <div class='card-header bg-transparent'>Location</div>
       <div class='card-body'>
         <FormGroupText schema={ServerLocationSchema} key='cpd' bind:object={server.location}/>
@@ -39,7 +39,7 @@
       </div>
     </div>
 
-    <div class='card border-light mb-4'>
+    <div class='card border-0'>
       <div class='card-header bg-transparent'>CPU</div>
       <div class='card-body'>
         <FormGroupText schema={ServerCPUSchema} key='type' bind:object={server.cpu}/>
@@ -50,7 +50,7 @@
       </div>
     </div>
 
-    <div class='card border-light mb-4'>
+    <div class='card border-0'>
       <div class='card-header bg-transparent'>Memory</div>
       <div class='card-body'>
         <FormGroupText schema={ServerMemorySchema} key='type' bind:object={server.memory}/>
@@ -59,7 +59,7 @@
       </div>
     </div>
 
-    <div class='card border-light mb-4'>
+    <div class='card border-0'>
       <div class='card-header bg-transparent'>Disk</div>
       <div class='card-body'>
         <FormGroupText schema={ServerDiskSchema} key='type' bind:object={server.disk}/>
