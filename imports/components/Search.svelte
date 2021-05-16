@@ -62,28 +62,11 @@
   }
 </script>
 
-<style>
-  .search {
-    width: 33.3%;
-    float: right;
-  }
-  .search input {
-    width: 100%;
-    border: 1px solid #eee;
-    border-radius: 3px;
-    padding: 5px 3px;
-  }
-
-  @media screen and (max-width: 767px) {
-    .search {
-      width: 100%;
-    }
-  }
-</style>
-
-<div class="search">
+<div class="search row" style="margin-bottom: 1rem">
   <input
+    class="form-control col-md-4 offset-md-8"
     type="search"
+    aria-label={labels.placeholder}
     title={labels.placeholder}
     placeholder={labels.placeholder}
     bind:value={text}
