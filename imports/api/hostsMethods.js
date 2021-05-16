@@ -1,55 +1,60 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
+import { HostSchema, HostsCollection } from '../db/HostsCollection';
 
 Meteor.methods({
-  'hosts.insert'(text) {
-    check(text, String);
-
-    if (!this.userId) {
-      throw new Meteor.Error('Not authorized.');
-    }
-
-    HostsCollection.insert({
-      text,
-      createdAt: new Date(),
-      userId: this.userId,
-    });
-  },
-
   'hosts.remove'(hostId) {
     check(hostId, String);
 
-    if (!this.userId) {
-      throw new Meteor.Error('Not authorized.');
-    }
+    // if (!this.userId) {
+    //   throw new Meteor.Error('Not authorized.');
+    // }
 
-    const host = HostsCollection.findOne({ _id: hostId, userId: this.userId });
+    // const host = HostsCollection.findOne({ _id: hostId, userId: this.userId });
 
-    if (!host) {
-      throw new Meteor.Error('Access denied.');
-    }
+    // if (!host) {
+    //   throw new Meteor.Error('Access denied.');
+    // }
 
     HostsCollection.remove(hostId);
   },
 
-  'hosts.setIsChecked'(hostId, isChecked) {
+  'hosts.insert'(host) {
+    console.log(host);
+    check(host, HostSchema);
+
+    // if (!this.userId) {
+    //   throw new Meteor.Error('Not authorized.');
+    // }
+
+    HostsCollection.insert(host);
+  },
+
+  'hosts.update'(hostId, host) {
+    console.log(hostId, host);
     check(hostId, String);
-    check(isChecked, Boolean);
 
-    if (!this.userId) {
-      throw new Meteor.Error('Not authorized.');
-    }
 
-    const host = HostsCollection.findOne({ _id: hostId, userId: this.userId });
+      HostsCollection.simpleSchema()
+    .namedContext()
+    .validate(host, { modifier: false });
 
-    if (!host) {
-      throw new Meteor.Error('Access denied.');
-    }
+    //check(host, HostSchema);
+
+    // if (!this.userId) {
+    //   throw new Meteor.Error('Not authorized.');
+    // }
+
+    // const host = HostsCollection.findOne({ _id: hostId, userId: this.userId });
+
+    // if (!host) {
+    //   throw new Meteor.Error('Access denied.');
+    // }
 
     HostsCollection.update(hostId, {
       $set: {
-        isChecked,
-      },
+        host
+      }
     });
   },
 });

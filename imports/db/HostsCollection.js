@@ -46,7 +46,10 @@ export const ServerSchema = new SimpleSchema({
 }, { requiredByDefault: false });
 
 export const HostSchema = new SimpleSchema({
-    name: String,
+    name: {
+        type: String,
+        unique: true
+    },
     domain: String,
     type: {
         type: String,
@@ -109,9 +112,9 @@ export const HostSchema = new SimpleSchema({
                 }
             } else {
                 // updates
-               /* if (this.isSet || this.value !== null) {
-                    return SimpleSchema.ErrorTypes.VALUE_NOT_ALLOWED;
-                }*/
+                /* if (this.isSet || this.value !== null) {
+                     return SimpleSchema.ErrorTypes.VALUE_NOT_ALLOWED;
+                 }*/
             }
         }
     }

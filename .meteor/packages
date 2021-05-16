@@ -26,3 +26,4 @@ meteortesting:mocha
 quave:testing
 fourseven:scss
 aldeed:collection2
+aldeed:schema-index
