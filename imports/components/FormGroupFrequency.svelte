@@ -6,11 +6,13 @@
 
     export let schema;
     export let key;
-    export let object = {};
+    export let object;
     export let id = [key, Date.now()].join('_');
 
+    object = object || {};
+
     $: value = key in object? object[key]: 0; 
-    $: exp = Math.floor(Math.log(value) / Math.log(multiplier));
+    $: exp = Math.floor(Math.log(value) / Math.log(multiplier)) | 0;
     $: number = (value / Math.pow(multiplier, exp)).toFixed(2) * 1;
     $: unit = units[exp];
 

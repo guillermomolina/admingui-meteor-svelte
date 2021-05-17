@@ -1,10 +1,18 @@
 <script>
-    import { SimpleSchema_render } from '../lib/helper';
+  import { SimpleSchema_render } from '../lib/helper';
 
-    export let schema;
-    export let key;
-    export let object = {};
-    export let id = [key, Date.now()].join('_');
+  export let schema;
+  export let key;
+  export let object;
+  export let id = [key, Date.now()].join('_');
+
+
+  object = object || {};
+  $: value = key in object? object[key]: ''; 
+
+  const setValue = () => {
+    object[key] = value;
+  }
 </script>
 
 <div class='row form-group'>
@@ -15,9 +23,9 @@
     >
     {schema.label(key)}
   </label>
-  <select {id} class='form-control col-8' bind:value={object[key]}>
+  <select {id} class='form-control col-8' on:blur={setValue}>
     {#each schema.getAllowedValuesForKey(key) as option}
-      <option value={option}>
+      <option value={option} selected={value === option}>
         {SimpleSchema_render(schema, key, option)}
       </option>
     {/each}

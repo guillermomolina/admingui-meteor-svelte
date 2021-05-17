@@ -48,7 +48,8 @@ export const ServerSchema = new SimpleSchema({
 export const HostSchema = new SimpleSchema({
     name: {
         type: String,
-        unique: true
+        unique: true,
+        optional: false
     },
     domain: String,
     type: {

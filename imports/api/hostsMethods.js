@@ -31,13 +31,11 @@ Meteor.methods({
   },
 
   'hosts.update'(hostId, host) {
-    console.log(hostId, host);
     check(hostId, String);
 
-
-      HostsCollection.simpleSchema()
-    .namedContext()
-    .validate(host, { modifier: false });
+    HostsCollection.simpleSchema()
+      .namedContext()
+      .validate(host, { modifier: false });
 
     //check(host, HostSchema);
 
@@ -51,10 +49,6 @@ Meteor.methods({
     //   throw new Meteor.Error('Access denied.');
     // }
 
-    HostsCollection.update(hostId, {
-      $set: {
-        host
-      }
-    });
+    HostsCollection.update(hostId, host, { validate: false });
   },
 });

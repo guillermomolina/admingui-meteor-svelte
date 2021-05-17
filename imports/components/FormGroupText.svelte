@@ -1,10 +1,17 @@
 <script>
-    import { SimpleSchema_render } from '../lib/helper';
+  import { SimpleSchema_render } from '../lib/helper';
 
-    export let schema;
-    export let key;
-    export let object;
-    export let id = [key, Date.now()].join('_');
+  export let schema;
+  export let key;
+  export let object;
+  export let id = [key, Date.now()].join('_');
+
+  object = object || {};
+  $: value = key in object? object[key]: ''; 
+
+  const setValue = () => {
+    object[key] = value;
+  }
 </script>
 
 <div class='row form-group'>
@@ -15,6 +22,6 @@
       >
       {schema.label(key)}
     </label>
-    <input {id} class='col-8 form-control' bind:value={object[key]} />
+    <input {id} class='col-8 form-control' {value} on:change={setValue}/>
 </div>
 

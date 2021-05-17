@@ -27,7 +27,7 @@ Meteor.startup(() => {
   const user = Accounts.findUserByUsername(SEED_USERNAME);
 
   if (HostsCollection.find().count() === 0) {
-    importHosts('/home/guille/Red/Temporal/hosts.csv');
+    importHosts('/tmp/hosts.csv');
   }
 
 });

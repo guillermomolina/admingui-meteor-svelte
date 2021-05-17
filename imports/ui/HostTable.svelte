@@ -1,6 +1,6 @@
 <script>
   import { HostsCollection } from "../db/HostsCollection";
-  import { Card, CardHeader, CardBody, CardFooter } from "sveltestrap";
+  import { Card, CardHeader, CardBody, CardFooter, Row, Col, Button } from "sveltestrap";
   import { HostSchema } from "../db/HostsCollection";
   import { SimpleSchema_render } from "../lib/helper";
   import Table, { Pagination, Search, Sort } from "../components/Table.svelte";
@@ -17,24 +17,22 @@
 
   const select = (row) => () => (host_name = row.name);
 
-
   let hosts = [];
   const handler = Meteor.subscribe("hosts");
   $m: {
     loading = !handler.ready();
-    const regex = {$regex : `.*${text}.*`};
-    const search = text === ''? {}: {
-      $or: [
-        { name: regex },
-        { type: regex },
-        { category: regex }
-      ]
-    };
+    const regex = { $regex: `.*${text}.*` };
+    const search =
+      text === ""
+        ? {}
+        : {
+            $or: [{ name: regex }, { type: regex }, { category: regex }],
+          };
     const query = HostsCollection.find(search, {
       fields: { name: 1, type: 1, category: 1, vcpus: 1, memory: 1 },
-      sort, 
-      skip: page * pageSize, 
-      limit: pageSize
+      sort,
+      skip: page * pageSize,
+      limit: pageSize,
     });
     totalRowsCount = query.count(false);
     rows = query.fetch();
@@ -47,17 +45,33 @@
   const onSearch = (event) => {
     text = event.detail.text;
     page = 0;
-  }
+  };
 
   const onSort = (event) => {
-    newSort = {}
+    newSort = {};
     newSort[event.detail.key] = event.detail.dir;
     sort = newSort;
+  };
+
+  const onAddHost = () => {
+    host_name = '';
   }
 </script>
 
 <Card style="margin-top: 1.5rem">
-  <CardHeader>Hosts</CardHeader>
+  <CardHeader>
+    <Row>
+      <Col>Hosts</Col>
+      <Col>
+        <button
+          class="btn btn-outline-secondary"
+          on:click={onAddHost}
+        >
+          <i class="fas fa-plus" />
+        </button>
+      </Col>
+    </Row>
+  </CardHeader>
   <CardBody>
     <Table
       class="table table-hover"
@@ -66,22 +80,18 @@
       {pageSize}
       {rows}
       {totalRowsCount}
-      serverSide=true
+      serverSide="true"
       let:rows={rows2}
       on:search={onSearch}
       on:pageChange={onPageChange}
->
+    >
       <thead slot="head">
         <tr>
           <th>
             {HostSchema.label("name")}
-            <Sort key="name" on:sort={onSort}/>
+            <Sort key="name" on:sort={onSort} />
           </th>
-          <th
-            >{HostSchema.label("type")}<Sort
-              key="type"
-              on:sort={onSort}
-            /></th
+          <th>{HostSchema.label("type")}<Sort key="type" on:sort={onSort} /></th
           >
           <th
             >{HostSchema.label("category")}<Sort

@@ -1,5 +1,4 @@
 <script>
-  import { beforeUpdate } from "svelte";
   import {
     Card,
     CardHeader,
@@ -20,7 +19,7 @@
   import ServerSubForm from "./ServerSubForm.svelte";
 
   export let host_name = "";
-  let host;
+  let host = {};
 
   const handler = Meteor.subscribe("hosts");
   $m: {
@@ -41,10 +40,6 @@
     }
   };
 
-  beforeUpdate(() => {
-    host = host || {};
-    host.operating_system = host.operating_system || {};
-  });
 </script>
 
 <Card style="margin-top: 1.5rem">
@@ -54,7 +49,7 @@
   <CardBody>
     <Form>
       <FormGroupText schema={HostSchema} key="name" bind:object={host} />
-      <FormGroupText schema={HostSchema} key="domain" bind:object={host} />
+      <FormGroupText schema={HostSchema} key="domain" bind:object={host} /> 
       <FormGroupSelect schema={HostSchema} key="category" bind:object={host} />
       <FormGroupSelect schema={HostSchema} key="type" bind:object={host} />
       <FormGroupText schema={HostSchema} key="class" bind:object={host} />
