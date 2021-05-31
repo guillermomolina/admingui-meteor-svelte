@@ -40,7 +40,7 @@ export const ServerSchema = new SimpleSchema({
     'serial_number': String,
     'oracle_csi': { type: String, label: 'Oracle CSI' },
     'location': ServerLocationSchema,
-    'cpu': ServerCPUSchema,
+    'cpu': { type: ServerCPUSchema, label: 'CPU' },
     'memory': ServerMemorySchema,
     'disk': ServerDiskSchema,
 }, { requiredByDefault: false });

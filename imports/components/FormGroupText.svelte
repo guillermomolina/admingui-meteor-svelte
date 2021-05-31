@@ -3,8 +3,10 @@
 
   export let schema;
   export let key;
-  export let value = '';
+  export let value;
   export let id = [key, Date.now()].join('_');
+
+  value = value || '';
 </script>
 
 <div class='row form-group'>

@@ -4,6 +4,7 @@ export function SimpleSchema_render(ss, key, value) {
     if ('renderer' in definition) {
         return definition.renderer(value);
     }
+    
     return value;
 };
 
