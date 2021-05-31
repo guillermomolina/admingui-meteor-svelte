@@ -20,7 +20,6 @@ Meteor.methods({
   },
 
   'hosts.insert'(host) {
-    console.log(host);
     check(host, HostSchema);
 
     // if (!this.userId) {

@@ -1,9 +1,7 @@
 <script>
     import { Meteor } from "meteor/meteor";
-    import { Container } from "sveltestrap";
 
     import Navbar from "./Navbar.svelte";
-    import Sidebar from "./Sidebar.svelte";
     import Footer from "./Footer.svelte";
     import NodesPage from "./HostPage.svelte";
     import LoginForm from "./LoginForm.svelte";

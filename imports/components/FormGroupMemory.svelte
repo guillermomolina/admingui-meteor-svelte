@@ -5,25 +5,21 @@
 
     export let schema;
     export let key;
-    export let object;
+    export let value = 0;
     export let id = [key, Date.now()].join('_');
 
-    object = object || {};
-
-    $: value = key in object? object[key]: 0; 
     $: exp = Math.floor(Math.log(value) / Math.log(1024)) | 0;
     $: number = (value / Math.pow(1024, exp)).toFixed(2) * 1;
     $: unit = units[exp];
 
     const setValue = () => {
        new_exp = units.indexOf(unit);
-       object[key] = number * Math.pow(1024, new_exp);
-       console.log(object[key]);
+       value = number * Math.pow(1024, new_exp);
     }
 
     const setUnit = (event) => {
         new_exp = units.indexOf(event.target.value);
-        object[key] = number * Math.pow(1024, new_exp);
+        value = number * Math.pow(1024, new_exp);
     }
 
 

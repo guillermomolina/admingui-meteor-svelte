@@ -3,16 +3,9 @@
 
   export let schema;
   export let key;
-  export let object;
+  export let value = 0;
   export let id = [key, Date.now()].join('_');
 
-  object = object || {};
-
-  $: value = key in object? object[key]: ''; 
-
-  const setValue = () => {
-    object[key] = value;
-  }
 </script>
 
 <div class='row form-group'>
@@ -23,5 +16,5 @@
     >
     {schema.label(key)}
   </label>
-  <input type='number' {id} class='col-8 form-control' {value} on:change={setValue} />
+  <input type='number' {id} class='col-8 form-control' {value} />
 </div>

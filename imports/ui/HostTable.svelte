@@ -1,6 +1,6 @@
 <script>
   import { HostsCollection } from "../db/HostsCollection";
-  import { Card, CardHeader, CardBody, CardFooter, Row, Col, Button } from "sveltestrap";
+  import { Card, CardHeader, CardBody, CardFooter, Row, Col } from "sveltestrap";
   import { HostSchema } from "../db/HostsCollection";
   import { SimpleSchema_render } from "../lib/helper";
   import Table, { Pagination, Search, Sort } from "../components/Table.svelte";
