@@ -1,9 +1,9 @@
 <script>
   import { HostsCollection } from "../db/HostsCollection";
-  import { Card, CardHeader, CardBody, CardFooter, Row, Col } from "sveltestrap";
+  import { Card, CardHeader, CardBody, CardFooter, Navbar, NavbarBrand, Nav, CardTitle } from "sveltestrap";
   import { HostSchema } from "../db/HostsCollection";
   import { SimpleSchema_render } from "../lib/helper";
-  import Table, { Pagination, Search, Sort } from "../components/Table.svelte";
+  import Table, { Sort } from "../components/Table.svelte";
 
   export let host_name;
   let rows = [];
@@ -60,17 +60,17 @@
 
 <Card style="margin-top: 1.5rem">
   <CardHeader>
-    <Row>
-      <Col>Hosts</Col>
-      <Col>
+    <Navbar>
+      <CardTitle>Hosts</CardTitle>
+      <Nav>
         <button
           class="btn btn-outline-secondary"
           on:click={onAddHost}
         >
           <i class="bi-plus"/>
         </button>
-      </Col>
-    </Row>
+      </Nav>
+    </Navbar>
   </CardHeader>
   <CardBody>
     <Table

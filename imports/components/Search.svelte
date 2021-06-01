@@ -62,9 +62,9 @@
   }
 </script>
 
-<div class="search row" style="margin-bottom: 1rem">
+<div class="search float-md-end" style="margin-bottom: 1rem">
   <input
-    class="form-control col-md-4 offset-md-8"
+    class="form-control"
     type="search"
     aria-label={labels.placeholder}
     title={labels.placeholder}

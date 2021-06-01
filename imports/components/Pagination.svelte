@@ -43,7 +43,7 @@
   }
 </script>
 
-<div class="btn-group float-md-right" role="group" aria-label="Pagination">
+<div class="btn-group float-md-end" role="group" aria-label="Pagination">
   <button
     class="btn btn-outline-secondary"
     disabled={page === 0}

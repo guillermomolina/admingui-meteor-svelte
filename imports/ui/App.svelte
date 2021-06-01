@@ -2,7 +2,7 @@
     import { Meteor } from "meteor/meteor";
     import { Styles } from 'sveltestrap';
 
-    import Navbar from "./Navbar.svelte";
+    import Header from "./Header.svelte";
     import Footer from "./Footer.svelte";
     import NodesPage from "./HostPage.svelte";
     import LoginForm from "./LoginForm.svelte";
@@ -35,7 +35,7 @@
                 {user.username} 🚪
             </div> -->
 
-            <Navbar {segment} {color} {title} />
+            <Header {segment} {color} {title} />
             <div id="layoutSidenav">
                 <!-- <Sidebar {segment} {theme} /> -->
                 <div id="layoutSidenav_content">
