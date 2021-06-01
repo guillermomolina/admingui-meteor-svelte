@@ -12,6 +12,7 @@
     "bcrypt": "^5.0.1",
     "bootstrap": "^5.0.0",
     "csv-parser": "^3.0.0",
+    "js-quantities": "^1.7.6",
     "meteor-node-stubs": "^1.0.1",
     "simpl-schema": "^1.12.0",
     "svelte": "^3.31.2",
