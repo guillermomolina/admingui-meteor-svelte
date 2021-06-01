@@ -3,16 +3,16 @@
         Navbar,
         NavbarBrand,
         Nav,
-        UncontrolledDropdown,
+        Dropdown,
         DropdownToggle,
         DropdownMenu,
         DropdownItem,
         ListGroup,
         Form,
         InputGroup,
-        InputGroupAddon,
         Input,
         Button,
+        Icon
     } from "sveltestrap";
 
     export let segment;
@@ -35,17 +35,15 @@
                     id="exampleSearch"
                     placeholder="Search for..."
                 />
-                <InputGroupAddon addonType={"append"}>
-                    <Button color="primary" on:click={searchHandle}>
-                        <i class="fas fa-search" />
-                    </Button>
-                </InputGroupAddon>
+                <Button color="primary" on:click={searchHandle}>
+                    <Icon name="search" />
+                </Button>
             </InputGroup>
         </Form>
         <ListGroup class="ml-auto ml-md-0">
-            <UncontrolledDropdown nav inNavbar>
+            <Dropdown nav inNavbar>
                 <DropdownToggle nav caret>
-                    <i class="fas fa-user fa-fw ml-3" />
+                    <Icon name="person" />
                 </DropdownToggle>
                 <DropdownMenu right>
                     <DropdownItem>
@@ -66,7 +64,7 @@
                         </a>
                     </DropdownItem>
                 </DropdownMenu>
-            </UncontrolledDropdown>
+            </Dropdown>
         </ListGroup>
     </Nav>
 </Navbar>

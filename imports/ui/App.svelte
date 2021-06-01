@@ -1,5 +1,6 @@
 <script>
     import { Meteor } from "meteor/meteor";
+    import { Styles } from 'sveltestrap';
 
     import Navbar from "./Navbar.svelte";
     import Footer from "./Footer.svelte";
@@ -20,6 +21,8 @@
 
     const logout = () => Meteor.logout();
 </script>
+
+<Styles />
 
 <svelte:head>
     <title>{title}</title>

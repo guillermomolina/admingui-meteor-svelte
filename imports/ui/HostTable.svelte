@@ -67,7 +67,7 @@
           class="btn btn-outline-secondary"
           on:click={onAddHost}
         >
-          <i class="fas fa-plus" />
+          <i class="bi-plus"/>
         </button>
       </Col>
     </Row>

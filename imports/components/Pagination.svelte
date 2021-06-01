@@ -49,14 +49,14 @@
     disabled={page === 0}
     on:click={(e) => onChange(e, 0)}
   >
-    <i class="fas fa-angle-double-left" />
+    <i class="bi-chevron-bar-left" />
   </button>
   <button
     class="btn btn-outline-secondary"
     disabled={page === 0}
     on:click={(e) => onChange(e, page - 1)}
   >
-  <i class="fas fa-angle-left" />
+  <i class="bi-chevron-left" />
 </button>
   {#each buttons as button}
     {#if page + button >= 0 && page + button <= pageCount}
@@ -74,13 +74,13 @@
     disabled={page > pageCount - 1}
     on:click={(e) => onChange(e, page + 1)}
   >
-  <i class="fas fa-angle-right" />
+  <i class="bi-chevron-right" />
 </button>
   <button
     class="btn btn-outline-secondary"
     disabled={page >= pageCount}
     on:click={(e) => onChange(e, pageCount)}
   >
-  <i class="fas fa-angle-double-right" />
+  <i class="bi-chevron-bar-right" />
 </button>
 </div>

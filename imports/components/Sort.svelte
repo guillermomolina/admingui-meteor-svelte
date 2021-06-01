@@ -14,9 +14,9 @@
   export let dir = 0;
   export let key;
   export let labels = {
-    asc: { title: "Ascending", icon: "fa-sort-up" },
-    desc: { title: "Desceding", icon: "fa-sort-down" },
-    unsorted: { title: "Unsorted", icon: "fa-sort" },
+    asc: { title: "Ascending", icon: "bi-chevron-up" },
+    desc: { title: "Desceding", icon: "bi-chevron-down" },
+    unsorted: { title: "Unsorted", icon: "bi-chevron-expand" },
     ...globalLabels
   };
 
@@ -43,15 +43,15 @@
 <span class="sort" on:click={onClick}>
   {#if dir == 1}
     <span title={labels.asc.title}>
-      <i class="fas {labels.asc.icon}" />
+      <i class="{labels.asc.icon}" />
     </span>
   {:else if dir == -1}
     <span title={labels.desc.title}>
-      <i class="fas {labels.desc.icon}" />
+      <i class="{labels.desc.icon}" />
     </span>
   {:else}
     <span title={labels.unsorted.title}>
-      <i class="fas {labels.unsorted.icon}" />
+      <i class="{labels.unsorted.icon}" />
     </span>
   {/if}
 </span>
