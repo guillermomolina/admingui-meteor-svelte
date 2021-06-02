@@ -7,15 +7,15 @@
 
   export let schema;
   export let key;
-  export let value = '';
+  export let value;
 
   let fieldType = SimpleSchema_getFieldDefinition(schema, key).type;
 </script>
 
 {#if fieldType === String}
-  <FormGroupText {schema} {key} bind:value />
+  <FormGroupText {schema} {key} value />
 {:else if fieldType === 'SimpleSchema.Integer'}
-  <FormGroupNumber {schema} {key} bind:value />
+  <FormGroupNumber {schema} {key} value />
 {:else if fieldType instanceof SimpleSchema}
-  <SubForm schema={fieldType} tittle={schema.label(key)} bind:object={value} />
+  <SubForm schema={fieldType} tittle={schema.label(key)} object={value} />
 {/if}

@@ -17,3 +17,9 @@ export function SimpleSchema_getFieldDefinition(ss, name) {
         ...(def.type && def.type[0]) || {},
     };
 };
+
+
+export function SimpleSchema_getFieldType(ss, name) {
+    const fd =  SimpleSchema_getFieldDefinition(ss, name);
+    return fd? fd.type: fd;
+}

@@ -4,43 +4,109 @@ import SimpleSchema from 'simpl-schema';
 export const HostsCollection = new Mongo.Collection('hosts');
 
 export const OperatingSystemSchema = new SimpleSchema({
-    'name': String,
-    'version': String,
-    'revision': String,
+    'name': {
+        type: String,
+        defaultValue: ''
+    },
+    'version': {
+        type: String,
+        defaultValue: ''
+    },
+    'revision': {
+        type: String,
+        defaultValue: ''
+    },
 }, { requiredByDefault: false });
 
 export const ServerLocationSchema = new SimpleSchema({
-    'rack': String,
-    'cpd': { type: String, label: 'CPD' }
+    'rack': {
+        type: String,
+        defaultValue: ''
+    },
+    'cpd': { 
+        type: String,
+        defaultValue: '',
+        label: 'CPD' 
+    }
 }, { requiredByDefault: false });
 
 export const ServerCPUSchema = new SimpleSchema({
-    'type': String,
-    'frequency': Number,
-    'count': SimpleSchema.Integer,
-    'cores': SimpleSchema.Integer,
-    'threads': SimpleSchema.Integer,
+    'type': {
+        type: String,
+        defaultValue: ''
+    },
+    'frequency': {
+        type: Number,
+        defaultValue: 0
+    },
+    'count': {
+        type: SimpleSchema.Integer,
+        defaultValue: 0
+    },
+    'cores': {
+        type: SimpleSchema.Integer,
+        defaultValue: 0
+    },
+    'threads': {
+        type: SimpleSchema.Integer,
+        defaultValue: 0
+    },
 }, { requiredByDefault: false });
 
 export const ServerMemorySchema = new SimpleSchema({
-    'type': String,
-    'count': SimpleSchema.Integer,
-    'size': Number,
+    'type': {
+        type: String,
+        defaultValue: ''
+    },
+    'count': {
+        type: SimpleSchema.Integer,
+        defaultValue: 0
+    },
+    'size': {
+        type: Number,
+        defaultValue: 0
+    },
 }, { requiredByDefault: false });
 
 export const ServerDiskSchema = new SimpleSchema({
-    'type': String,
-    'count': SimpleSchema.Integer,
-    'rpms': { type: SimpleSchema.Integer, label: 'RPMs' },
-    'size': Number,
+    'type': {
+        type: String,
+        defaultValue: ''
+    },
+    'count': {
+        type: SimpleSchema.Integer,
+        defaultValue: 0
+    },
+    'rpms': { 
+        type: SimpleSchema.Integer,
+        defaultValue: 0, 
+        label: 'RPMs' 
+    },
+    'size': {
+        type: Number,
+        defaultValue: 0
+    },
 }, { requiredByDefault: false });
 
 export const ServerSchema = new SimpleSchema({
-    'vendor': String,
-    'serial_number': String,
-    'oracle_csi': { type: String, label: 'Oracle CSI' },
+    'vendor': {
+        type: String,
+        defaultValue: ''
+    },
+    'serial_number': {
+        type: String,
+        defaultValue: ''
+    },
+    'oracle_csi': { 
+        type: String,
+        defaultValue: '', 
+        label: 'Oracle CSI' 
+    },
     'location': ServerLocationSchema,
-    'cpu': { type: ServerCPUSchema, label: 'CPU' },
+    'cpu': { 
+        type: ServerCPUSchema, 
+        label: 'CPU' 
+    },
     'memory': ServerMemorySchema,
     'disk': ServerDiskSchema,
 }, { requiredByDefault: false });
@@ -49,11 +115,16 @@ export const HostSchema = new SimpleSchema({
     name: {
         type: String,
         unique: true,
-        optional: false
+        required: true,
+        defaultValue: 'unnamed'
     },
-    domain: String,
+    domain: {
+        type: String,
+        defaultValue: ''
+    },
     type: {
         type: String,
+        defaultValue: 'kernel-zone',
         allowedValues: ['server', 'logical-domain', 'kernel-zone', 'solaris10-zone', 'zone'],
         renderer: (value) => {
             return {
@@ -65,14 +136,22 @@ export const HostSchema = new SimpleSchema({
             }[value];
         }
     },
-    class: String,
-    architecture: String,
+    class: {
+        type: String,
+        defaultValue: ''
+    },
+    architecture: {
+        type: String,
+        defaultValue: ''
+    },
     container: {
         type: String,
+        defaultValue: '',
         optional: true
     },
     category: {
         type: String,
+        defaultValue: 'desenvolupament',
         allowedValues: ['desenvolupament', 'preproduccio', 'produccio', 'integracio', 'gestio'],
         renderer: (value) => {
             return {
@@ -84,9 +163,13 @@ export const HostSchema = new SimpleSchema({
             }[value];
         }
     },
-    vcpus: { type: SimpleSchema.Integer, label: 'Virtual CPUs' },
+    vcpus: { 
+        type: SimpleSchema.Integer,
+        defaultValue: 0, 
+        label: 'Virtual CPUs' },
     memory: {
         type: Number,
+        defaultValue: 0,
         renderer: (value) => {
             var i = Math.floor(Math.log(value) / Math.log(1024));
             return (value / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
