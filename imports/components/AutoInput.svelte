@@ -1,4 +1,5 @@
 <script>
+    import objectPath from "object-path";
     import { getContext } from "svelte";
     import { key } from "../lib/key";
     import AutoErrorMessage from "./AutoErrorMessage.svelte";
@@ -23,7 +24,7 @@
         {id}
         {name}
         {type}
-        value={$form[name]}
+        value={objectPath.get($form, name)}
         on:change={handleChange}
         on:blur={handleChange}
         {...$$props}

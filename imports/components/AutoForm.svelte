@@ -13,6 +13,7 @@
       "onSubmit is a required property in <Form /> when using the fallback context"
     );
   };
+
   export let context = createForm({
     initialValues,
     onSubmit,
@@ -45,6 +46,10 @@
     updateValidateField,
     validateField,
   });
+
+  $m: {
+    updateInitialValues(initialValues);
+  }
 </script>
 
 <form on:submit={handleSubmit} {...$$restProps}>

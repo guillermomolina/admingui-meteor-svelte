@@ -9,7 +9,6 @@ function isCheckbox(element) {
 }
 
 export const createForm = (config) => {
-
   const schema = config.schema;
   const validateFunction = config.validate;
   const onSubmit = config.onSubmit;
@@ -184,7 +183,7 @@ export const createForm = (config) => {
    * Update the initial values and reset form. Used to dynamically display new form values
    */
   function updateInitialValues(newValues) {
-    initialValues = newValues;
+    initialValues = schema.clean(newValues, {getAutoValues: true});
 
     handleReset();
   }

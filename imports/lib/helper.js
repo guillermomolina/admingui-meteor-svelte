@@ -18,8 +18,12 @@ export function SimpleSchema_getFieldDefinition(ss, name) {
     };
 };
 
-
 export function SimpleSchema_getFieldType(ss, name) {
     const fd =  SimpleSchema_getFieldDefinition(ss, name);
     return fd? fd.type: fd;
 }
+
+
+export function getSchemaDefinitionType(def) {
+    return (def.type && def.type.definitions && def.type.definitions[0].type);
+};

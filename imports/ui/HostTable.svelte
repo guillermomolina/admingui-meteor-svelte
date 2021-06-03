@@ -1,16 +1,25 @@
 <script>
   import { HostsCollection } from "../db/HostsCollection";
-  import { Card, CardHeader, CardBody, CardFooter, Navbar, NavbarBrand, Nav, CardTitle } from "sveltestrap";
+  import {
+    Card,
+    CardHeader,
+    CardBody,
+    CardFooter,
+    Navbar,
+    NavbarBrand,
+    Nav,
+    CardTitle,
+  } from "sveltestrap";
   import { HostSchema } from "../db/HostsCollection";
   import { SimpleSchema_render } from "../lib/helper";
   import Table, { Sort } from "../components/Table.svelte";
 
   export let host_name;
+  export let loading;
   let rows = [];
   let page = 0; //first page
   let pageSize = 10; //optional, 10 by default
 
-  let loading = true;
   let totalRowsCount = 0;
   let text = "";
   let sort = {};
@@ -18,9 +27,7 @@
   const select = (row) => () => (host_name = row.name);
 
   let hosts = [];
-  const handler = Meteor.subscribe("hosts");
   $m: {
-    loading = !handler.ready();
     const regex = { $regex: `.*${text}.*` };
     const search =
       text === ""
@@ -28,14 +35,19 @@
         : {
             $or: [{ name: regex }, { type: regex }, { category: regex }],
           };
-    const query = HostsCollection.find(search, {
-      fields: { name: 1, type: 1, category: 1, vcpus: 1, memory: 1 },
-      sort,
-      skip: page * pageSize,
-      limit: pageSize,
-    });
-    totalRowsCount = query.count(false);
-    rows = query.fetch();
+    if (loading) {
+      totalRowsCount = 0;
+      rows = [];
+    } else {
+      const query = HostsCollection.find(search, {
+        fields: { name: 1, type: 1, category: 1, vcpus: 1, memory: 1 },
+        sort,
+        skip: page * pageSize,
+        limit: pageSize,
+      });
+      totalRowsCount = query.count(false);
+      rows = query.fetch();
+    }
   }
 
   const onPageChange = (event) => {
@@ -54,8 +66,8 @@
   };
 
   const onAddHost = () => {
-    host_name = '';
-  }
+    host_name = "";
+  };
 </script>
 
 <Card style="margin-top: 1.5rem">
@@ -63,11 +75,8 @@
     <Navbar>
       <CardTitle>Hosts</CardTitle>
       <Nav>
-        <button
-          class="btn btn-outline-secondary"
-          on:click={onAddHost}
-        >
-          <i class="bi-plus"/>
+        <button class="btn btn-outline-secondary" on:click={onAddHost}>
+          <i class="bi-plus" />
         </button>
       </Nav>
     </Navbar>
