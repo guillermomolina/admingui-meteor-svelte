@@ -21,5 +21,6 @@
   }
 </script>
 
-<AutoForm {...formProps}>
-</AutoForm>
+
+<AutoForm {...formProps}/>
+

@@ -9,7 +9,6 @@
   $m: {
     loading = !handler.ready();
   }
-
 </script>
 
 <div class="container-fluid">

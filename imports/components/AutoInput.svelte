@@ -1,6 +1,7 @@
 <script>
     import objectPath from "object-path";
     import { getContext } from "svelte";
+    import { FormGroup, Input, Label } from 'sveltestrap';
     import { key } from "../lib/key";
     import AutoErrorMessage from "./AutoErrorMessage.svelte";
 
@@ -11,16 +12,16 @@
     const id = [name, Date.now()].join("_");
 </script>
 
-<div class="row form-group">
+<div class="form-group">
     <label
         for={id}
-        class="col-4 text-right"
+        class="text-right"
         style="margin-top: 0.25rem; margin-bottom: 0.25rem"
     >
         {label}
     </label>
     <input
-        class="col-8 form-control"
+        class="form-control"
         {id}
         {name}
         {type}
@@ -31,3 +32,8 @@
     />
     <AutoErrorMessage {name} />
 </div>
+
+<FormGroup>
+    <Label>Type here</Label>
+    <Input type="text" value={objectPath.get($form, name)} />
+</FormGroup>
