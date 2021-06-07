@@ -1,5 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
+import { renderMemory, renderFrequency } from '../lib/helper';
 
 export const HostsCollection = new Mongo.Collection('hosts');
 
@@ -16,7 +17,7 @@ export const OperatingSystemSchema = new SimpleSchema({
         type: String,
         defaultValue: ''
     },
-}, { requiredByDefault: false });
+});
 
 export const ServerLocationSchema = new SimpleSchema({
     'rack': {
@@ -28,7 +29,7 @@ export const ServerLocationSchema = new SimpleSchema({
         defaultValue: '',
         label: 'CPD' 
     }
-}, { requiredByDefault: false });
+});
 
 export const ServerCPUSchema = new SimpleSchema({
     'type': {
@@ -37,7 +38,8 @@ export const ServerCPUSchema = new SimpleSchema({
     },
     'frequency': {
         type: Number,
-        defaultValue: 0
+        defaultValue: 0,
+        renderer: renderFrequency
     },
     'count': {
         type: SimpleSchema.Integer,
@@ -51,7 +53,7 @@ export const ServerCPUSchema = new SimpleSchema({
         type: SimpleSchema.Integer,
         defaultValue: 0
     },
-}, { requiredByDefault: false });
+});
 
 export const ServerMemorySchema = new SimpleSchema({
     'type': {
@@ -64,9 +66,10 @@ export const ServerMemorySchema = new SimpleSchema({
     },
     'size': {
         type: Number,
-        defaultValue: 0
+        defaultValue: 0,
+        renderer: renderMemory
     },
-}, { requiredByDefault: false });
+});
 
 export const ServerDiskSchema = new SimpleSchema({
     'type': {
@@ -84,9 +87,10 @@ export const ServerDiskSchema = new SimpleSchema({
     },
     'size': {
         type: Number,
-        defaultValue: 0
+        defaultValue: 0,
+        renderer: renderMemory
     },
-}, { requiredByDefault: false });
+});
 
 export const ServerSchema = new SimpleSchema({
     'vendor': {
@@ -102,20 +106,30 @@ export const ServerSchema = new SimpleSchema({
         defaultValue: '', 
         label: 'Oracle CSI' 
     },
-    'location': ServerLocationSchema,
+    'location': {
+        type: ServerLocationSchema,
+        defaultValue: {}
+    },
     'cpu': { 
         type: ServerCPUSchema, 
-        label: 'CPU' 
+        label: 'CPU',
+        defaultValue: {}
     },
-    'memory': ServerMemorySchema,
-    'disk': ServerDiskSchema,
-}, { requiredByDefault: false });
+    'memory':  {
+        type: ServerMemorySchema,
+        defaultValue: {}
+    },
+    'disk':  {
+        type: ServerDiskSchema,
+        defaultValue: {}
+    },
+});
 
 export const HostSchema = new SimpleSchema({
     name: {
         type: String,
         unique: true,
-        required: true
+        defaultValue: ''
     },
     domain: {
         type: String,
@@ -123,8 +137,8 @@ export const HostSchema = new SimpleSchema({
     },
     type: {
         type: String,
-        defaultValue: 'kernel-zone',
-        allowedValues: ['server', 'logical-domain', 'kernel-zone', 'solaris10-zone', 'zone'],
+        defaultValue: '',
+        allowedValues: ['', 'server', 'logical-domain', 'kernel-zone', 'solaris10-zone', 'zone'],
         renderer: (value) => {
             return {
                 server: 'Server',
@@ -145,13 +159,12 @@ export const HostSchema = new SimpleSchema({
     },
     container: {
         type: String,
-        defaultValue: '',
-        optional: true
+        defaultValue: ''
     },
     category: {
         type: String,
-        defaultValue: 'desenvolupament',
-        allowedValues: ['desenvolupament', 'preproduccio', 'produccio', 'integracio', 'gestio'],
+        defaultValue: '',
+        allowedValues: ['', 'desenvolupament', 'preproduccio', 'produccio', 'integracio', 'gestio'],
         renderer: (value) => {
             return {
                 desenvolupament: 'Desenvolupament',
@@ -169,17 +182,17 @@ export const HostSchema = new SimpleSchema({
     memory: {
         type: Number,
         defaultValue: 0,
-        renderer: (value) => {
-            var i = Math.floor(Math.log(value) / Math.log(1024));
-            return (value / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
-        }
+        renderer: renderMemory
     },
-    operating_system: OperatingSystemSchema,
+    operating_system: {
+        type: OperatingSystemSchema,
+        defaultValue: {}
+    },
     server: {
         type: ServerSchema,
         optional: true,
         custom: function () {
-            let isTypeServer = this.field('type').value === 'server';
+            const isTypeServer = this.field('type').value === 'server';
 
             if (isTypeServer) {
                 // inserts
@@ -201,7 +214,7 @@ export const HostSchema = new SimpleSchema({
             }
         }
     }
-}, { requiredByDefault: false });
+});
 
 HostsCollection.attachSchema(HostSchema);
 
