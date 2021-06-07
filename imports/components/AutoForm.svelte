@@ -67,7 +67,7 @@
     {validateField}
   />
 
-  <AutoSubForm tittle="Add" {schema}/>
+  <AutoSubForm tittle={$form['name'] ? "Modify a host": "Add a host"} {schema}/>
 
   <button type="submit">submit</button>
 </form>

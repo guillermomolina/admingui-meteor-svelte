@@ -7,7 +7,6 @@
 
   export let host_name = "";
   let host = HostSchema.clean({}, {getAutoValues: true});
-  console.log(1,host);
 
   const handler = Meteor.subscribe("hosts");
   $m: {
@@ -30,5 +29,4 @@
 
 </script>
 
-{console.log(2,host)}
 <SubForm schema={HostSchema} tittle={"_id" in host ? "Modify a host" : "Add a host"} object={host} /> 

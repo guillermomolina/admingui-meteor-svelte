@@ -7,7 +7,6 @@
 
 </script>
 
-{console.log(3,object)}
 <div class="card border-0">
   <div class='card-header bg-transparent'>{tittle}</div>
   <div class='card-body'>

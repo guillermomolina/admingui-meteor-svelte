@@ -115,8 +115,7 @@ export const HostSchema = new SimpleSchema({
     name: {
         type: String,
         unique: true,
-        required: true,
-        defaultValue: 'unnamed'
+        required: true
     },
     domain: {
         type: String,
