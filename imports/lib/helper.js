@@ -45,3 +45,21 @@ export function renderHeartz(value) {
     var i = value == 0 ? 0 : Math.floor(Math.log(value) / Math.log(1000));
     return (value / Math.pow(1000, i)).toFixed(2) * 1 + ' ' + ['Hz', 'kHz', 'MHz', 'GHz', 'THz'][i];
 }
+
+export function clickOutside(node) {
+    const handleClick = event => {
+      if (node && !node.contains(event.target) && !event.defaultPrevented) {
+        node.dispatchEvent(
+          new CustomEvent('click_outside', node)
+        )
+      }
+    }
+  
+      document.addEventListener('click', handleClick, true);
+    
+    return {
+      destroy() {
+        document.removeEventListener('click', handleClick, true);
+      }
+      }
+  }
