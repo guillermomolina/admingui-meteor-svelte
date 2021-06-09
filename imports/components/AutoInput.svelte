@@ -30,22 +30,3 @@
     </div>
     <AutoErrorMessage {name} />
 </div>
-
-
-<!-- <div class="row mb-3">
-    <label for={name} class="col-sm-4 col-form-label" style="text-align: right;">
-        {label}
-    </label>
-    <div class="col-sm-8">
-        <input
-            class="form-control"
-            id={name}
-            {name}
-            {type}
-            value={objectPath.get($form, name) || ''}
-            on:change={handleChange}
-            on:blur={handleChange}
-        />
-    </div>
-    <AutoErrorMessage {name} />
-</div> -->

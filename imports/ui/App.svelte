@@ -4,7 +4,8 @@
 
     import Header from "./Header.svelte";
     import Footer from "./Footer.svelte";
-    import NodesPage from "./HostPage.svelte";
+    // import NodesPage from "./HostPage.svelte";
+    import NodesPage from "./Test.svelte";
     import LoginForm from "./LoginForm.svelte";
 
     let user = null;
