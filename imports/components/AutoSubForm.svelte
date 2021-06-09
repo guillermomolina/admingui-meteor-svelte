@@ -7,20 +7,23 @@
     SimpleSchema_getFieldType,
     SimpleSchema_getFieldDefinition,
   } from "../lib/helper";
+  import { util } from '../lib/util';
   import AutoInput from "./AutoInput.svelte";
   import AutoSelect from "./AutoSelect.svelte";
 
   export let schema;
-  export let tittle = null;
+  export let label = null;
   export let name = null;
 
   const { form } = getContext(key);
 
-  const fieldList = schema._schemaKeys.map((key) => {
+  let subschema = util.isNullish(name)? schema: SimpleSchema_getFieldType(schema, name);
+
+  const fieldList = subschema._schemaKeys.map((key) => {
     const field = {
       key,
       name: name === null ? key : [name, key].join("."),
-      type: SimpleSchema_getFieldType(schema, key),
+      type: SimpleSchema_getFieldType(subschema, key),
     };
     return field;
   });
@@ -28,24 +31,24 @@
 
 {#if !name || objectPath.get($form, name)}
   <div class="card border-0">
-    <div class="card-header bg-transparent">{tittle}</div>
+    <div class="card-header bg-transparent">{label}</div>
     <div class="card-body">
       {#each fieldList as field}
         {#if field.type instanceof SimpleSchema}
           <svelte:self
-            tittle={schema.label(field.key)}
-            schema={field.type}
+            label={schema.label(field.name)}
             name={field.name}
+            {schema}
           />
-        {:else if SimpleSchema_getFieldDefinition(schema, field.key).allowedValues}
+        {:else if SimpleSchema_getFieldDefinition(schema, field.name).allowedValues}
           <AutoSelect
-            label={schema.label(field.key)}
+            label={schema.label(field.name)}
             name={field.name}
             {schema}
           />
         {:else}
           <AutoInput
-            label={schema.label(field.key)}
+            label={schema.label(field.name)}
             name={field.name}
             {schema}
           />

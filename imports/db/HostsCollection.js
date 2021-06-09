@@ -1,6 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
-import { renderMemory, renderFrequency } from '../lib/helper';
+import { renderBytes, renderHeartz } from '../lib/helper';
 
 export const HostsCollection = new Mongo.Collection('hosts');
 
@@ -39,7 +39,7 @@ export const ServerCPUSchema = new SimpleSchema({
     'frequency': {
         type: Number,
         defaultValue: 0,
-        renderer: renderFrequency
+        renderer: renderHeartz
     },
     'count': {
         type: SimpleSchema.Integer,
@@ -67,7 +67,7 @@ export const ServerMemorySchema = new SimpleSchema({
     'size': {
         type: Number,
         defaultValue: 0,
-        renderer: renderMemory
+        renderer: renderBytes
     },
 });
 
@@ -88,7 +88,7 @@ export const ServerDiskSchema = new SimpleSchema({
     'size': {
         type: Number,
         defaultValue: 0,
-        renderer: renderMemory
+        renderer: renderBytes
     },
 });
 
@@ -182,7 +182,7 @@ export const HostSchema = new SimpleSchema({
     memory: {
         type: Number,
         defaultValue: 0,
-        renderer: renderMemory
+        renderer: renderBytes
     },
     operating_system: {
         type: OperatingSystemSchema,

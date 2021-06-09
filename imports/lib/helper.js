@@ -9,11 +9,12 @@ export function SimpleSchema_getFieldDefinition(ss, name) {
 };
 
 export function SimpleSchema_render(ss, name, value) {
-    definition = SimpleSchema_getFieldDefinition(ss, name);
-    if (definition && 'renderer' in definition) {
-        return definition.renderer(value) || '';
+    const fd = SimpleSchema_getFieldDefinition(ss, name);
+    if(name.endsWith('frequency'))
+        console.log(value);
+    if (fd && 'renderer' in fd) {      
+        return fd.renderer(value) || '';
     }
-
     return value;
 };
 
@@ -28,7 +29,7 @@ export function getSchemaDefinitionType(def) {
 };
 
 
-export function renderMemory(value) {
+export function renderBytes(value) {
     if (isNaN(value)) {
         return '';
     }
@@ -37,10 +38,10 @@ export function renderMemory(value) {
 }
 
 
-export function renderFrequency(value) {
+export function renderHeartz(value) {
     if (isNaN(value)) {
         return '';
     }
     var i = value == 0 ? 0 : Math.floor(Math.log(value) / Math.log(1000));
-    return (value / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['Hz', 'kHz', 'MHz', 'GHz', 'THz'][i];
+    return (value / Math.pow(1000, i)).toFixed(2) * 1 + ' ' + ['Hz', 'kHz', 'MHz', 'GHz', 'THz'][i];
 }
