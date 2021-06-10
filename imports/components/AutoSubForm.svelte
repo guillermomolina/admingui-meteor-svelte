@@ -10,6 +10,7 @@
   import { util } from '../lib/util';
   import AutoInput from "./AutoInput.svelte";
   import AutoSelect from "./AutoSelect.svelte";
+  import AutoQuantity from "./AutoQuantity.svelte";
 
   export let schema;
   export let label = null;
@@ -36,6 +37,12 @@
       {#each fieldList as field}
         {#if field.type instanceof SimpleSchema}
           <svelte:self
+            label={schema.label(field.name)}
+            name={field.name}
+            {schema}
+          />
+        {:else if field.key === 'size'}
+          <AutoQuantity
             label={schema.label(field.name)}
             name={field.name}
             {schema}

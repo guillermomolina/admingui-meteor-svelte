@@ -1,3 +1,4 @@
+import 'bootstrap/dist/js/bootstrap.bundle';
 import '../imports/lib/startup';
 import { Meteor } from 'meteor/meteor';
 import App from '../imports/ui/App.svelte';

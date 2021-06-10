@@ -1,21 +1,31 @@
 <script>
+  import objectPath from "object-path";
+  import { getContext } from "svelte";
+  import { key } from "../lib/key";
+  import AutoErrorMessage from "./AutoErrorMessage.svelte";
   import { createEventDispatcher } from "svelte";
   import { clickOutside } from "../lib/helper";
+  import { SimpleSchema_render } from "../lib/helper";
 
   const dispatch = createEventDispatcher();
 
-  export let value = 0;
+  export let label;
+  export let name;
+  export let schema;
+
+  const { form, handleChange } = getContext(key);
+  const units = ["B", "kB", "MB", "GB", "TB"];
 
   let quantity, magnitude, unit, showPicker;
 
   // so that these change with props
   $: {
-    quantity = 0;
-    magnitude = 0;
-    unit = "B";
+    value = objectPath.get($form, name);
+    quantity = SimpleSchema_render(schema, name, value);
+    exp = value == 0 ? 0 : Math.floor(Math.log(value) / Math.log(1024));
+    magnitude = (value / Math.pow(1024, exp)).toFixed(2) * 1;
+    unit = units[exp];
   }
-
-  const units = ["B", "kB", "MB", "GB", "TB"];
 
   // handlers
   const onFocus = () => {
@@ -35,49 +45,56 @@
   const setUnit = () => {};
 </script>
 
-<input class="form-control" type="date" />
-
-<div class="relative">
-  <div class="input-group">
-    <input class="form-control" value={quantity} />
-      <button class="btn btn-secondary" on:click={onFocus}>
-        <i class="bi-input-cursor" />
-      </button>    
-  </div>
-
-  {#if showPicker}
-    <div class="box" use:clickOutside on:click_outside={onBlur}>
-      <div class="input-group col-8" style="padding: 0">
+<div class="row mb-3">
+  <label for={name} class="col-sm-4 col-form-label" style="text-align: right;">
+    {label}
+  </label>
+  <div class="col-sm-8">
+    <div class="relative">
+      <div class="input-group">
         <input
           class="form-control"
-          value={magnitude}
-          type="number"
-          style="text-align: right;"
-          on:change={setMagnitude}
+          id={name}
+          {name}
+          value={quantity}
+          on:change={handleChange}
+          on:blur={handleChange}
         />
-          <select
-            class="form-control form-select"
-            bind:value={unit}
-            on:blur={setUnit}
+       <div class="dropdown">
+          <button
+            class="btn btn-secondary dropdown-toggle"
+            type="button"
+            id="dropdownMenuButton1"
+            data-bs-toggle="dropdown"
+            aria-expanded="true"
           >
-            {#each units as option}
-              <option value={option}>{option}</option>
-            {/each}
-          </select>
+            <i class="bi-input-cursor" />
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <form>
+              <div class="input-group">
+                <input
+                  class="form-control"
+                  value={magnitude}
+                  type="number"
+                  style="text-align: right;"
+                  on:change={setMagnitude}
+                />
+                <select
+                  class="form-control form-select"
+                  value={unit}
+                  on:blur={setUnit}
+                >
+                  {#each units as option}
+                    <option value={option}>{option}</option>
+                  {/each}
+                </select>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
-  {/if}
+  </div>
+  <AutoErrorMessage {name} />
 </div>
-
-<style>
-  .relative {
-    position: relative;
-  }
-  .box {
-    position: absolute;
-    top: 40px;
-    left: 0px;
-    border: 5px solid green;
-    display: inline-block;
-  }
-</style>
