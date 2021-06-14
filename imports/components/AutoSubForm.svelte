@@ -41,7 +41,7 @@
             name={field.name}
             {schema}
           />
-        {:else if field.key === 'size'}
+        {:else if field.key === 'memory'}
           <AutoQuantity
             label={schema.label(field.name)}
             name={field.name}

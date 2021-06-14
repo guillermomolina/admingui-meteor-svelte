@@ -50,50 +50,19 @@
     {label}
   </label>
   <div class="col-sm-8">
-    <div class="relative">
-      <div class="input-group">
-        <input
-          class="form-control"
-          id={name}
-          {name}
-          value={quantity}
-          on:change={handleChange}
-          on:blur={handleChange}
-        />
-       <div class="dropdown">
-          <button
-            class="btn btn-secondary dropdown-toggle"
-            type="button"
-            id="dropdownMenuButton1"
-            data-bs-toggle="dropdown"
-            aria-expanded="true"
-          >
-            <i class="bi-input-cursor" />
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <form>
-              <div class="input-group">
-                <input
-                  class="form-control"
-                  value={magnitude}
-                  type="number"
-                  style="text-align: right;"
-                  on:change={setMagnitude}
-                />
-                <select
-                  class="form-control form-select"
-                  value={unit}
-                  on:blur={setUnit}
-                >
-                  {#each units as option}
-                    <option value={option}>{option}</option>
-                  {/each}
-                </select>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+    <div class="input-group">
+      <input
+        class="form-control flex-fill"
+        value={magnitude}
+        type="number"
+        style="text-align: right;"
+        on:change={setMagnitude}
+      />
+      <select class="form-control form-select flex-column col-1" value={unit} on:blur={setUnit} style="max-width: 33%;">
+        {#each units as option}
+          <option value={option}>{option}</option>
+        {/each}
+      </select>
     </div>
   </div>
   <AutoErrorMessage {name} />
