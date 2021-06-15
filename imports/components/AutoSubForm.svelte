@@ -11,7 +11,7 @@
   import AutoInput from "./AutoInput.svelte";
   import AutoSelect from "./AutoSelect.svelte";
   import AutoQuantity from "./AutoQuantity.svelte";
-  import { Quantity } from "../lib/Quantity"; 
+  import { Quantity } from "../lib/quantity"; 
 
   export let schema;
   export let label = null;

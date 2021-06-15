@@ -4,8 +4,8 @@
   import { key } from "../lib/key";
   import AutoErrorMessage from "./AutoErrorMessage.svelte";
   import { createEventDispatcher } from "svelte";
-  import { clickOutside } from "../lib/helper";
-  import { SimpleSchema_render } from "../lib/helper";
+  import { SimpleSchema_getFieldType } from "../lib/helper";
+import { Unit } from "../lib/quantity";
 
   const dispatch = createEventDispatcher();
 
@@ -14,17 +14,14 @@
   export let schema;
 
   const { form, handleChange } = getContext(key);
-  const units = ["B", "kB", "MB", "GB", "TB"];
+  const type = Quantity.getType(SimpleSchema_getFieldType(schema, name));
 
-  let quantity, magnitude, unit, showPicker;
+  let quantity;
 
   // so that these change with props
   $: {
     value = objectPath.get($form, name);
-    quantity = SimpleSchema_render(schema, name, value);
-    exp = value == 0 ? 0 : Math.floor(Math.log(value) / Math.log(1024));
-    magnitude = (value / Math.pow(1024, exp)).toFixed(2) * 1;
-    unit = units[exp];
+    quantity = new type(value);
   }
 
   // handlers
@@ -53,13 +50,13 @@
     <div class="input-group">
       <input
         class="form-control flex-fill"
-        value={magnitude}
+        value={quantity.getMagnitude()}
         type="number"
         style="text-align: right;"
         on:change={setMagnitude}
       />
-      <select class="form-control form-select flex-column col-1" value={unit} on:blur={setUnit} style="max-width: 33%;">
-        {#each units as option}
+      <select class="form-control form-select flex-column col-1" value={quantity.getScaledPrefix()} on:blur={setUnit} style="max-width: 33%;">
+        {#each quantity.Unit.prefixes as option}
           <option value={option}>{option}</option>
         {/each}
       </select>
