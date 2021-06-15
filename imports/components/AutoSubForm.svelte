@@ -11,6 +11,7 @@
   import AutoInput from "./AutoInput.svelte";
   import AutoSelect from "./AutoSelect.svelte";
   import AutoQuantity from "./AutoQuantity.svelte";
+  import { Quantity } from "../lib/Quantity"; 
 
   export let schema;
   export let label = null;
@@ -41,7 +42,7 @@
             name={field.name}
             {schema}
           />
-        {:else if field.key === 'memory'}
+        {:else if Quantity.getType(field.type)}
           <AutoQuantity
             label={schema.label(field.name)}
             name={field.name}

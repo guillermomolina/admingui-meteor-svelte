@@ -55,7 +55,7 @@ export const ServerCPUSchema = new SimpleSchema({
     },
 });
 
-export const ServerMemorySchema = new SimpleSchema({
+export const ServerMemoryModuleSchema = new SimpleSchema({
     'type': {
         type: String,
         defaultValue: ''
@@ -115,8 +115,8 @@ export const ServerSchema = new SimpleSchema({
         label: 'CPU',
         defaultValue: {}
     },
-    'memory':  {
-        type: ServerMemorySchema,
+    'memory_module':  {
+        type: ServerMemoryModuleSchema,
         defaultValue: {}
     },
     'disk':  {
@@ -180,7 +180,7 @@ export const HostSchema = new SimpleSchema({
         defaultValue: 0, 
         label: 'Virtual CPUs' },
     memory: {
-        type: Number,
+        type: "MemoryBinaryQuantity",
         defaultValue: 0,
         renderer: renderBytes
     },

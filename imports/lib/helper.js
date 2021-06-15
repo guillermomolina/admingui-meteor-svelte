@@ -10,8 +10,6 @@ export function SimpleSchema_getFieldDefinition(ss, name) {
 
 export function SimpleSchema_render(ss, name, value) {
     const fd = SimpleSchema_getFieldDefinition(ss, name);
-    if(name.endsWith('frequency'))
-        console.log(value);
     if (fd && 'renderer' in fd) {      
         return fd.renderer(value) || '';
     }
