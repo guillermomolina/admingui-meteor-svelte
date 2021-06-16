@@ -1,6 +1,7 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 import { renderBytes, renderHeartz } from '../lib/helper';
+import { ByteHandler } from '../lib/handler';
 
 export const HostsCollection = new Mongo.Collection('hosts');
 
@@ -180,8 +181,9 @@ export const HostSchema = new SimpleSchema({
         defaultValue: 0, 
         label: 'Virtual CPUs' },
     memory: {
-        type: "MemoryBinaryQuantity",
+        type: Number,
         defaultValue: 0,
+        handler: ByteHandler,
         renderer: renderBytes
     },
     operating_system: {

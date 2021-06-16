@@ -1,3 +1,12 @@
+
+export function isNullish(value) {
+  return value === undefined || value === null;
+}
+
+export function isEmpty(object) {
+  return isNullish(object) || Object.keys(object).length <= 0;
+}
+
 export function SimpleSchema_getFieldDefinition(ss, name) {
     const def = ss.getDefinition(name);
     if (!def) return;
